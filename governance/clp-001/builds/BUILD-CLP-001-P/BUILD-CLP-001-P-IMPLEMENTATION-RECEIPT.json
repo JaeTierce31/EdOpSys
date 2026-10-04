@@ -1,0 +1,55 @@
+{
+  "authorization_commit": "3753687529f797cd98006cd69b563d354b3bb094",
+  "branch": "build-clp-001-p-final",
+  "build_id": "BUILD-CLP-001-P",
+  "fragments": [
+    {
+      "byte_identity": "PASS",
+      "bytes": 17033,
+      "git_blob_sha1": "3dd9f5a7bb3140ae14dbd8de2fcbb893574f507c",
+      "name": "P-core-source.json",
+      "sha256": "69eaf51d998e274a443fd2733a8ecf412ce8a94b097d91939b3f117b273ad020"
+    },
+    {
+      "byte_identity": "PASS",
+      "bytes": 12072,
+      "git_blob_sha1": "e5e27a0b28533f9724f38c6e16c2b9a653c1bcf2",
+      "name": "P-adapter-source.json",
+      "sha256": "cf378d3496457d0286b0d4120ed4111d0695dfc546cd004aac300242d2ccfefc"
+    },
+    {
+      "byte_identity": "PASS",
+      "bytes": 14949,
+      "git_blob_sha1": "6c44f9303d2e35a695a32849ca18d0f4c9e181ff",
+      "name": "P-tests-source.json",
+      "sha256": "00ff3d2ab8e58dec8236e904659bf188a052089078aac3a4effbe5c9315c0434"
+    },
+    {
+      "byte_identity": "PASS",
+      "bytes": 9216,
+      "git_blob_sha1": "32cada7b7f5cd20a1c54b2c1142d25514187351f",
+      "name": "P-support-source.json",
+      "sha256": "0f40b1c0efd9cd1a176fd2b54953cce1d0573aa1e928305789cdb062017d106a"
+    }
+  ],
+  "governance": {
+    "clp001_certification_hash": "sha256:dc0537dbef4b0e595c7712416d0e47c49d99208efc13706759af061eed192423",
+    "g0": "adab09caa0093c9490a8f1ab215a719bf0fa9aa4",
+    "g1": "dddd7d91494a5c3916146387828efd643b957fa2"
+  },
+  "implementation_commit": "726e5339173435fbe11c30391f91f95ca33e8441",
+  "implementation_tree": "2bce64691b0c6cb2088185766e78606be202d891",
+  "receipt_hash": "sha256:b9a58f96b52c9afaf68378d010248d0b48e5b58eddc2910a280fec8368c4452a",
+  "receipt_id": "BUILD-CLP-001-P-IMPLEMENTATION-RECEIPT",
+  "repository": "JaeTierce31/EdOpSys",
+  "scope_boundary": "Persistence/API adapter only; no UI, payments, marketplace, social, gamification, production identity federation, or new AI authority.",
+  "status": "VERIFIED_REPOSITORY_BOUND",
+  "verification": {
+    "build_b": "37/37 PASS",
+    "build_c": "7/7 PASS",
+    "build_p": "26/26 PASS",
+    "clean_unzip_build": "PASS",
+    "clean_unzip_package_sha256": "896d71d04f555301ee037a59be169264c2d5d4b2e29196eea64a665db7eb632d"
+  },
+  "version": "1.0.0"
+}
