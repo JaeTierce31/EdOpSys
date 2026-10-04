@@ -1,13 +1,18 @@
 {
   "authority_boundary": "OBSERVABILITY_ONLY_NO_EXECUTION_AUTHORITY",
   "build_id": "BUILD-CLP-001-S",
-  "expected_blocking_reason_count": 0,
-  "expected_live_repository_health": "DEGRADED",
-  "local_static_health_test_contract": "PASS",
-  "local_static_schema_contract": "PASS",
+  "version": "1.0.0",
   "parent_baseline": "b0f19f2d0ce8a086604ed1f08d1202cd5650dae8",
-  "postgresql_16_gate": "PENDING_GITHUB_CI",
-  "source_manifest_sha256": "e93756465862ece4af390e975f4483b14eda9f077acf5cee52ebf513bc91b774",
-  "t1_t10": "PENDING_GITHUB_CI",
-  "version": "1.0.0"
+  "source_manifest_sha256": "44b54a18e88ca6e547f6f6a9bc55214194422507aa0eb7c22f7e04524944404d",
+  "workflow_sha256": "1425d627771ee674900eb474e7e1edc0932b5f0d86fe7ab2105af0f02b3cbdca",
+  "evidence_run_id": 37222641880,
+  "evidence_head_sha": "0eb4460979ac42af7688bc4d647e7be8f7f61f2f",
+  "postgresql_16_gate": "PASS",
+  "source_manifest_verification": "PASS",
+  "t1_t10": "PASS",
+  "live_repository_health": "DEGRADED",
+  "blocking_reason_count": 0,
+  "degradation_reason": "AUTH-APPLEVALLEY-155360 freshness review due",
+  "stale_g0_drift": "SUPERSEDED_NON_BLOCKING",
+  "final_exact_head_gate": "REQUIRED_AFTER_THIS_RECEIPT_COMMIT"
 }
