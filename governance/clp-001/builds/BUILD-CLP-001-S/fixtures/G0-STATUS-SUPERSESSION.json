@@ -1,0 +1,22 @@
+{
+  "receipt_id": "CLP001-G0-STATUS-SUPERSESSION-001",
+  "repository": "JaeTierce31/EdOpSys",
+  "historical_assertion": {
+    "source_path": "governance/clp-001/g0/G0-STATUS.json",
+    "git_blob_sha1": "1a12cc327460748fdb24b306cac6dced83d05a71",
+    "status": "BLOCKED_PENDING_SOURCE_BUNDLE_UPLOAD",
+    "g0_designated": false,
+    "interpretation": "Historically valid fail-closed status before byte-exact source-bundle materialization completed."
+  },
+  "superseding_assertion": {
+    "source_path": "governance/clp-001/g1/G0-designation.json",
+    "git_blob_sha1": "1217f749311ee24c2b31a6d702e75e9d2eb9863f",
+    "g0_commit_sha": "adab09caa0093c9490a8f1ab215a719bf0fa9aa4",
+    "designated_at": "2026-10-04T09:03:06.661926Z",
+    "designation": "G0",
+    "source_bundle_integrity": "PASS"
+  },
+  "resolution": "SUPERSEDED",
+  "rule": "Retain the historical status artifact unchanged. Current G0 status resolves from the later higher-authority designation chain; historical replay retains both artifacts.",
+  "current_baseline_at_receipt_creation": "b0f19f2d0ce8a086604ed1f08d1202cd5650dae8"
+}
