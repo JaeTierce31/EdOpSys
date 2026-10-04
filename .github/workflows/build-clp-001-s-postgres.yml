@@ -26,6 +26,25 @@ jobs:
       PGDATABASE: postgres
     steps:
       - uses: actions/checkout@v4
+      - name: Report committed S source hashes
+        run: |
+          root=governance/clp-001/builds/BUILD-CLP-001-S
+          for f in \
+            migrations/003_clp001_s_governance_health.sql \
+            tests/s-health.sql \
+            fixtures/repository-observations.sql \
+            fixtures/G0-STATUS-SUPERSESSION.json \
+            fixtures/R-INDEPENDENT-REVIEW-RECEIPT.json \
+            README-S.md \
+            docs/BUILD-CLP-001-S-SPEC.md \
+            docs/2026-10-04-build-clp-001-s-plan.md; do
+              bytes=$(wc -c < "$root/$f" | tr -d ' ')
+              hash=$(sha256sum "$root/$f" | awk '{print $1}')
+              echo "S_SOURCE $f $bytes $hash"
+          done
+          bytes=$(wc -c < .github/workflows/build-clp-001-s-postgres.yml | tr -d ' ')
+          hash=$(sha256sum .github/workflows/build-clp-001-s-postgres.yml | awk '{print $1}')
+          echo "S_SOURCE .github/workflows/build-clp-001-s-postgres.yml $bytes $hash"
       - name: Install PostgreSQL client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
       - name: Apply Q, R, S migrations
@@ -40,7 +59,9 @@ jobs:
       - name: Verify live EdOpSys projection
         run: |
           actual=$(psql -Atc "SELECT overall_health FROM edopsys_observability.v_repository_health WHERE repository='JaeTierce31/EdOpSys'")
+          blockers=$(psql -Atc "SELECT blocking_reason_count FROM edopsys_observability.v_repository_health WHERE repository='JaeTierce31/EdOpSys'")
           test "$actual" = "DEGRADED"
+          test "$blockers" = "0"
           json=$(psql -Atc "SELECT dashboard::text FROM edopsys_observability.v_dashboard_summary_json WHERE repository='JaeTierce31/EdOpSys'")
           test -n "$json"
           echo "$json"
