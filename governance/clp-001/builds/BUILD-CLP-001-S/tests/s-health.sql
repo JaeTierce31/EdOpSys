@@ -14,22 +14,22 @@ CREATE OR REPLACE FUNCTION pg_temp.good(repo text,prefix text) RETURNS void LANG
 END$$;
 
 -- T1 unresolved P1 -> BLOCKED
-SELECT pg_temp.good('t1','t1'); PERFORM pg_temp.obs('t1','t1-p1','PR_REVIEW');
+SELECT pg_temp.good('t1','t1'); SELECT pg_temp.obs('t1','t1-p1','PR_REVIEW');
 INSERT INTO pr_reviews VALUES('t1-p1','t1',1,'impl','impl','reviewer','P1','OPEN',false,false,true,clock_timestamp());
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t1'),'BLOCKED','T1');
 
 -- T2 resolved P1 no longer blocks
-SELECT pg_temp.good('t2','t2'); PERFORM pg_temp.obs('t2','t2-p1','PR_REVIEW');
+SELECT pg_temp.good('t2','t2'); SELECT pg_temp.obs('t2','t2-p1','PR_REVIEW');
 INSERT INTO pr_reviews VALUES('t2-p1','t2',1,'impl','impl','reviewer','P1','RESOLVED',true,false,false,clock_timestamp());
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t2'),'HEALTHY','T2');
 
 -- T3 missing required artifact -> BLOCKED
-SELECT pg_temp.good('t3','t3'); PERFORM pg_temp.obs('t3','t3-miss','ARTIFACT_INTEGRITY');
+SELECT pg_temp.good('t3','t3'); SELECT pg_temp.obs('t3','t3-miss','ARTIFACT_INTEGRITY');
 INSERT INTO artifact_integrity VALUES('t3-miss','t3','missing',true,'MISSING','x',NULL,1,NULL,clock_timestamp());
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t3'),'BLOCKED','T3');
 
 -- T4 hash mismatch -> BLOCKED
-SELECT pg_temp.good('t4','t4'); PERFORM pg_temp.obs('t4','t4-hash','ARTIFACT_INTEGRITY');
+SELECT pg_temp.good('t4','t4'); SELECT pg_temp.obs('t4','t4-hash','ARTIFACT_INTEGRITY');
 INSERT INTO artifact_integrity VALUES('t4-hash','t4','bad',true,'HASH_MISMATCH','x','y',1,1,clock_timestamp());
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t4'),'BLOCKED','T4');
 
@@ -38,7 +38,7 @@ SELECT pg_temp.good('t5','t5');
 SELECT pg_temp.assert_eq((SELECT ci_health FROM v_ci_health WHERE repository='t5'),'PASS','T5');
 
 -- T6 stale-head CI -> STALE_HEAD and DEGRADED
-SELECT pg_temp.good('t6','t6'); PERFORM pg_temp.obs('t6','t6-ci2','CI_RUN');
+SELECT pg_temp.good('t6','t6'); SELECT pg_temp.obs('t6','t6-ci2','CI_RUN');
 INSERT INTO ci_runs VALUES('t6-ci2','t6','BUILD-X',2,'old','new','completed','success','success',clock_timestamp()+interval '1 second');
 SELECT pg_temp.assert_eq((SELECT ci_health FROM v_ci_health WHERE repository='t6'),'STALE_HEAD','T6-ci');
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t6'),'DEGRADED','T6-health');
@@ -52,11 +52,11 @@ SELECT pg_temp.assert_eq((SELECT value#>>'{}' FROM v_governance_assertion_curren
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t7'),'HEALTHY','T7-health');
 
 -- T8 missing required observations -> UNKNOWN
-PERFORM pg_temp.base('t8','t8-b');
+SELECT pg_temp.base('t8','t8-b');
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t8'),'UNKNOWN','T8');
 
 -- T9 freshness review due -> DEGRADED
-SELECT pg_temp.good('t9','t9'); PERFORM pg_temp.obs('t9','t9-auth2','AUTHORITY_RECORD');
+SELECT pg_temp.good('t9','t9'); SELECT pg_temp.obs('t9','t9-auth2','AUTHORITY_RECORD');
 INSERT INTO authority_records VALUES('t9-auth2','t9','AUTH2','v1','SC-0','J','h','FRESHNESS_REVIEW_DUE',false,clock_timestamp()+interval '1 second');
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t9'),'DEGRADED','T9');
 
