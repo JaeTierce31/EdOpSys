@@ -27,17 +27,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install PostgreSQL client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
-      - name: Materialize R recovery scripts
+      - name: Materialize reviewed R recovery files
         run: |
-          mkdir -p migrations scripts tests/r
+          mkdir -p migrations scripts
           cp governance/clp-001/builds/BUILD-CLP-001-Q/migrations/001_clp001_q.sql migrations/001_clp001_q.sql
           cp governance/clp-001/builds/BUILD-CLP-001-R/migrations/002_clp001_r.sql migrations/002_clp001_r.sql
-          python3 - <<'PY'
-          import json, pathlib
-          obj=json.loads(pathlib.Path('governance/clp-001/builds/BUILD-CLP-001-R/R-tests.json').read_text())
-          for item in obj['files']:
-              p=pathlib.Path(item['path']); p.parent.mkdir(parents=True,exist_ok=True); p.write_text(item['content'])
-          PY
+          cp governance/clp-001/builds/BUILD-CLP-001-R/scripts/postgres-r-legacy-q-seed.sql scripts/postgres-r-legacy-q-seed.sql
+          cp governance/clp-001/builds/BUILD-CLP-001-R/scripts/postgres-r-seed.sql scripts/postgres-r-seed.sql
+          cp governance/clp-001/builds/BUILD-CLP-001-R/scripts/postgres-r-backup-restore.sh scripts/postgres-r-backup-restore.sh
           chmod +x scripts/postgres-r-backup-restore.sh
-      - name: Run R native backup restore gate
+      - name: Run R Q-upgrade plus native backup restore gate
         run: bash scripts/postgres-r-backup-restore.sh
