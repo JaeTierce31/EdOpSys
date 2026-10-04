@@ -1,0 +1,11 @@
+{
+  "coexistence": "PASS",
+  "current_hardened_fixture": "AUTH-APPLEVALLEY-155360@2025-S21",
+  "current_hardened_fixture_hash": "sha256:00b53bf9346e8e89debff50503783b2bcbe311715c6cb1a560c3076a2b971004",
+  "historical_fixture": "AUTH-APPLEVALLEY-PLUMBING@CLP-FIXTURE-1",
+  "historical_replay_hash": "sha256:62e1f774d99ea358a40956be98bb6b3516a6bbfa4f6ca9cad040a7794a1b79f9",
+  "historical_replay_unchanged": true,
+  "state_plumbing_fixture": "AUTH-MN-PLUMBING-4714@2020-MN-PLUMBING-CODE",
+  "state_plumbing_fixture_hash": "sha256:1a49eaa526cffbc39613fc0b64fd70daeb8e41a025baed00f708fc5b013b0bc2",
+  "verification_id": "CLP-001-AUTHORITY-COEXISTENCE-1"
+}
