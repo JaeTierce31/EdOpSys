@@ -42,11 +42,6 @@
       "path": "docs/2026-10-04-build-clp-001-s-plan.md",
       "bytes": 2666,
       "sha256": "b6e6aa00a7b0f8ada186667e21eff944dd5d65bd7737905fe75fb07f30454c10"
-    },
-    {
-      "path": ".github/workflows/build-clp-001-s-postgres.yml",
-      "bytes": 3124,
-      "sha256": "c9f08acb45a488cad11d4affc881ef51da13f1eff821e12458bc30eb9bbc1d64"
     }
   ]
 }
