@@ -26,25 +26,24 @@ jobs:
       PGDATABASE: postgres
     steps:
       - uses: actions/checkout@v4
-      - name: Report committed S source hashes
+      - name: Verify frozen S source manifest
         run: |
           root=governance/clp-001/builds/BUILD-CLP-001-S
-          for f in \
-            migrations/003_clp001_s_governance_health.sql \
-            tests/s-health.sql \
-            fixtures/repository-observations.sql \
-            fixtures/G0-STATUS-SUPERSESSION.json \
-            fixtures/R-INDEPENDENT-REVIEW-RECEIPT.json \
-            README-S.md \
-            docs/BUILD-CLP-001-S-SPEC.md \
-            docs/2026-10-04-build-clp-001-s-plan.md; do
-              bytes=$(wc -c < "$root/$f" | tr -d ' ')
-              hash=$(sha256sum "$root/$f" | awk '{print $1}')
-              echo "S_SOURCE $f $bytes $hash"
-          done
-          bytes=$(wc -c < .github/workflows/build-clp-001-s-postgres.yml | tr -d ' ')
-          hash=$(sha256sum .github/workflows/build-clp-001-s-postgres.yml | awk '{print $1}')
-          echo "S_SOURCE .github/workflows/build-clp-001-s-postgres.yml $bytes $hash"
+          manifest="$root/receipts/S-source-manifest.json"
+          echo '44b54a18e88ca6e547f6f6a9bc55214194422507aa0eb7c22f7e04524944404d  '"$manifest" | sha256sum -c -
+          python - <<'PY'
+          import json,hashlib,pathlib
+          root=pathlib.Path('governance/clp-001/builds/BUILD-CLP-001-S')
+          m=json.loads((root/'receipts/S-source-manifest.json').read_text())
+          for e in m['files']:
+              p=(pathlib.Path('.')/e['path']) if e['path'].startswith('.github/') else (root/e['path'])
+              b=p.read_bytes(); h=hashlib.sha256(b).hexdigest()
+              assert len(b)==e['bytes'],(e['path'],len(b),e['bytes'])
+              assert h==e['sha256'],(e['path'],h,e['sha256'])
+              print('S_MANIFEST_PASS',e['path'],len(b),h)
+          PY
+      - name: Report workflow hash
+        run: sha256sum .github/workflows/build-clp-001-s-postgres.yml
       - name: Install PostgreSQL client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
       - name: Apply Q, R, S migrations
