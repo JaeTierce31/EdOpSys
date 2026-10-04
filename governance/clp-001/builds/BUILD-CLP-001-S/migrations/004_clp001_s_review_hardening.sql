@@ -87,9 +87,12 @@ SELECT b.repository,b.canonical_head,b.latest_merged_build,
     WHEN COALESCE(bu.health,'UNKNOWN')='DEGRADED' OR COALESCE(rv.health,'UNKNOWN')='DEGRADED' OR COALESCE(a.health,'UNKNOWN')='DEGRADED' OR COALESCE(d.health,'UNKNOWN')='DEGRADED' OR COALESCE(ci.ci_health,'NO_RUN')='STALE_HEAD' THEN 'DEGRADED'
     ELSE 'HEALTHY' END overall_health
 FROM b
-LEFT JOIN bu USING(repository)
+LEFT JOIN bu ON bu.repository=b.repository
 LEFT JOIN v_ci_health ci ON ci.repository=b.repository AND ci.build_id=b.latest_merged_build
-LEFT JOIN i USING(repository) LEFT JOIN rv USING(repository) LEFT JOIN a USING(repository) LEFT JOIN d USING(repository);
+LEFT JOIN i ON i.repository=b.repository
+LEFT JOIN rv ON rv.repository=b.repository
+LEFT JOIN a ON a.repository=b.repository
+LEFT JOIN d ON d.repository=b.repository;
 
 CREATE VIEW v_dashboard_summary_json AS
 SELECT repository,jsonb_build_object(
