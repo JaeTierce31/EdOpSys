@@ -1,52 +1,52 @@
 {
   "build_id": "BUILD-CLP-001-S",
+  "version": "1.0.0",
+  "parent_baseline": "b0f19f2d0ce8a086604ed1f08d1202cd5650dae8",
   "files": [
     {
-      "bytes": 21673,
       "path": "migrations/003_clp001_s_governance_health.sql",
-      "sha256": "e07b25c5e2228c9c8f9c0c6a9e9f6b1442a5c31c581c4d609b553541226c5ce6"
+      "bytes": 12694,
+      "sha256": "627e8123b7ad9028930bb114abc6564334cd81e1d7c18e0e0d8dd514e869d730"
     },
     {
-      "bytes": 10426,
       "path": "tests/s-health.sql",
-      "sha256": "db919dc76136565502419df30d16be8f593f770f249d3fb1335fd4439e3e9843"
+      "bytes": 6198,
+      "sha256": "a62167a710192b477f7fda9d8ccd76abb63a751903e902885e0cf98d7edde0fc"
     },
     {
-      "bytes": 7945,
       "path": "fixtures/repository-observations.sql",
-      "sha256": "6791d205509a624b2edc89b9612a57c46fb098b314f07408fd39696a2fbcd958"
+      "bytes": 4662,
+      "sha256": "8b446e0d483f238f54031b9a64741dc03cfb7cec942c2b39b2bc9eb94e49a958"
     },
     {
-      "bytes": 1096,
       "path": "fixtures/G0-STATUS-SUPERSESSION.json",
+      "bytes": 1096,
       "sha256": "16013daf1de953f037df69ba9f5534cade3e09eb37f3eb9d32eaf2962a965c96"
     },
     {
-      "bytes": 609,
       "path": "fixtures/R-INDEPENDENT-REVIEW-RECEIPT.json",
+      "bytes": 609,
       "sha256": "23234beff4dac072956f38fbdfdf097b8810d6e5f1ef2dfa586015f0f5b687d9"
     },
     {
-      "bytes": 1700,
       "path": "README-S.md",
+      "bytes": 1700,
       "sha256": "1bb532af45b7ecce305b07a724af988b79dd2d617e76f814864c429b633b93b0"
     },
     {
-      "bytes": 1600,
       "path": "docs/BUILD-CLP-001-S-SPEC.md",
+      "bytes": 1600,
       "sha256": "2ba76b70d32133fc19300d8c86ffb390c46ee14578683c60201ddad2a01e7622"
     },
     {
-      "bytes": 2666,
       "path": "docs/2026-10-04-build-clp-001-s-plan.md",
+      "bytes": 2666,
       "sha256": "b6e6aa00a7b0f8ada186667e21eff944dd5d65bd7737905fe75fb07f30454c10"
     },
     {
-      "bytes": 1982,
       "path": ".github/workflows/build-clp-001-s-postgres.yml",
-      "sha256": "ab26321a108c730b48f99b8950bdcb6a37c0d6dd1c1247c2465e7add5266ad89"
+      "bytes": 3124,
+      "sha256": "c9f08acb45a488cad11d4affc881ef51da13f1eff821e12458bc30eb9bbc1d64"
     }
-  ],
-  "parent_baseline": "b0f19f2d0ce8a086604ed1f08d1202cd5650dae8",
-  "version": "1.0.0"
+  ]
 }
