@@ -1,0 +1,11 @@
+{
+  "apple_valley_authority_hash": "sha256:00b53bf9346e8e89debff50503783b2bcbe311715c6cb1a560c3076a2b971004",
+  "assurance_id": "CLP-001-AUTH-HARDENING-VERIFY-1",
+  "coexistence_rule": "Historical fixture retained; hardened authority version added for new/current applicability resolution.",
+  "historical_c_certification_hash": "sha256:cda30aaba737a85eda4ae87e202164112505a7f1b75e048bd9ad983ba7e75a18",
+  "historical_c_replay_hash": "sha256:62e1f774d99ea358a40956be98bb6b3516a6bbfa4f6ca9cad040a7794a1b79f9",
+  "historical_replay_mutated": false,
+  "mn_plumbing_authority_hash": "sha256:1a49eaa526cffbc39613fc0b64fd70daeb8e41a025baed00f708fc5b013b0bc2",
+  "result": "PASS_AUTHORITY_HARDENED_REPOSITORY_BINDING_PENDING_SOURCE_MATERIALIZATION",
+  "verified_at": "2026-10-03T19:01:00-05:00"
+}
