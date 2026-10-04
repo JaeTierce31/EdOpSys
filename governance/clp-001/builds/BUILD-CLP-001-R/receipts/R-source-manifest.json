@@ -37,9 +37,9 @@
       "sha256": "40e87e1b3b87a8f3587b164c843d5fc53c1952bb461763588c02e284c2ddcd07"
     },
     {
-      "bytes": 1854,
+      "bytes": 2536,
       "path": "tests/r/postgres-contract.test.mjs",
-      "sha256": "52ff7488ad591b3d3b53701fe142fecc2893088abac789bacd7ad67149ecc293"
+      "sha256": "9fbd22ddf0283d582c0892a6f76839fa7277b32d99e2a0448b540e7139c23915"
     },
     {
       "bytes": 1548,
@@ -47,9 +47,9 @@
       "sha256": "9e081e56a9971be862217664a9046e07170fd3949519e86b47a210aa3f6c2ac3"
     },
     {
-      "bytes": 1710,
+      "bytes": 2502,
       "path": "scripts/postgres-r-seed.sql",
-      "sha256": "79dab9a4b7b855d28d7f7f9481227d364e3ad110043a38a851709bbd38bcf95b"
+      "sha256": "0f0a0134bf44bbc40cc550fa98abec3c6e5ea99505a3e21788e09fe563ca6dd4"
     },
     {
       "bytes": 3544,
@@ -59,7 +59,7 @@
     {
       "bytes": 1098,
       "path": "README-R.md",
-      "sha256": "13c21a6c0e65702cc79030d59c4daa7edd4425bbd7b29e21faf00f1b8c10855e"
+      "sha256": "3d0089878af573a341d38dff4581431b254c9ef8c7254e6465e96b5877503262"
     },
     {
       "bytes": 1320,
@@ -73,5 +73,5 @@
     }
   ],
   "parent_merged_q_sha": "5427aff8c10370085546cf98ae83dacd5939bb0a",
-  "version": "1.0.4"
+  "version": "1.0.5"
 }

@@ -33,3 +33,12 @@ test('R recovery projection covers both migrated legacy and R-native correlation
   assert.match(sh,/IN \('corr-r-seed','corr-r-legacy'\)/);
   assert.match(sh,/DST_DB.*corr-r-legacy|corr-r-legacy.*DST_DB/s);
 });
+
+
+test('R-native recovery seed is a replayable GoldenEvent-shaped fixture',()=>{
+  const sql=fs.readFileSync(new URL('../../scripts/postgres-r-seed.sql',import.meta.url),'utf8');
+  for(const field of ['occurred_at','actor_id','actor_type','causation_event_id','input_refs','output_refs','source_refs','policy_refs','evidence_refs','reason_code']) assert.match(sql,new RegExp(`\"${field}\"`));
+  assert.match(sql,/sha256:076dcd5aa3584022fa3c6c6f1a6159f027b84c3d5dafa46a55fd250fe8dda3a1/);
+  assert.match(sql,/sha256:dbc82d401c10273ce51226fa5851ead568ccc4fe99752ef18e1b323b4a11081e/);
+  assert.match(sql,/sha256:f5506a8a87cff79044409b9517fd5f5a7fce9d2b0fdeb61ccafec9f749fc91ae/);
+});
