@@ -1,0 +1,67 @@
+{
+  "build_id": "BUILD-CLP-001-S",
+  "version": "1.0.2",
+  "parent_baseline": "b0f19f2d0ce8a086604ed1f08d1202cd5650dae8",
+  "files": [
+    {
+      "path": "migrations/003_clp001_s_governance_health.sql",
+      "bytes": 12694,
+      "sha256": "627e8123b7ad9028930bb114abc6564334cd81e1d7c18e0e0d8dd514e869d730"
+    },
+    {
+      "path": "migrations/004_clp001_s_review_hardening.sql",
+      "bytes": 6725,
+      "sha256": "8fa03938fbd79d7bd92afa9125187c0f7794aaea4c5280becfa869bcebf7ecfe"
+    },
+    {
+      "path": "migrations/005_clp001_s_canonical_binding.sql",
+      "bytes": 8194,
+      "sha256": "5c2b7997062ccc6027388095594cfa5add10072643ee3cdbb5bc8407538e3413"
+    },
+    {
+      "path": "migrations/006_clp001_s_exact_evidence_binding.sql",
+      "bytes": 6515,
+      "sha256": "e82548de31db5ad7dd2af2b6da2e925fa0250bbf5bfebf310f7fe33c76fde2dc"
+    },
+    {
+      "path": "tests/s-health.sql",
+      "bytes": 14026,
+      "sha256": "b2926005e54f868dd46c6d3c78bf38a5fb26bbf5243c7374d2d1af5977d4505f"
+    },
+    {
+      "path": "tests/s-health-v102.sql",
+      "bytes": 4092,
+      "sha256": "ac9ca41431e0b1a6af2160c777f13a5644391db878c2932e8eed9a8b6cc1b810"
+    },
+    {
+      "path": "fixtures/repository-observations.sql",
+      "bytes": 4945,
+      "sha256": "396b4c1d5aa37a97af1c3fc2aa5caf18149fe2ad87e05b0cc96a7074769fac5f"
+    },
+    {
+      "path": "fixtures/G0-STATUS-SUPERSESSION.json",
+      "bytes": 1096,
+      "sha256": "16013daf1de953f037df69ba9f5534cade3e09eb37f3eb9d32eaf2962a965c96"
+    },
+    {
+      "path": "fixtures/R-INDEPENDENT-REVIEW-RECEIPT.json",
+      "bytes": 609,
+      "sha256": "23234beff4dac072956f38fbdfdf097b8810d6e5f1ef2dfa586015f0f5b687d9"
+    },
+    {
+      "path": "README-S.md",
+      "bytes": 1700,
+      "sha256": "1bb532af45b7ecce305b07a724af988b79dd2d617e76f814864c429b633b93b0"
+    },
+    {
+      "path": "docs/BUILD-CLP-001-S-SPEC.md",
+      "bytes": 1600,
+      "sha256": "2ba76b70d32133fc19300d8c86ffb390c46ee14578683c60201ddad2a01e7622"
+    },
+    {
+      "path": "docs/2026-10-04-build-clp-001-s-plan.md",
+      "bytes": 2666,
+      "sha256": "b6e6aa00a7b0f8ada186667e21eff944dd5d65bd7737905fe75fb07f30454c10"
+    }
+  ]
+}
