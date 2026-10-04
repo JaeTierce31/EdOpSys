@@ -44,6 +44,11 @@ ON CONFLICT DO NOTHING;
 
 ALTER TABLE clp_certifications ADD COLUMN IF NOT EXISTS correlation_id TEXT;
 
+-- Q already protects certifications with an append-only trigger. Migration 002
+-- temporarily disables only that trigger so existing immutable rows can receive
+-- their one-time correlation binding; the trigger is re-enabled before COMMIT.
+ALTER TABLE clp_certifications DISABLE TRIGGER clp_certifications_append_only;
+
 -- Prefer an explicit legacy payload binding when present.
 UPDATE clp_certifications
 SET correlation_id = COALESCE(NULLIF(payload->>'correlation_id',''), NULLIF(payload->>'correlationId',''))
@@ -72,5 +77,6 @@ END
 $$;
 
 ALTER TABLE clp_certifications ALTER COLUMN correlation_id SET NOT NULL;
+ALTER TABLE clp_certifications ENABLE TRIGGER clp_certifications_append_only;
 CREATE INDEX IF NOT EXISTS idx_clp_certifications_correlation ON clp_certifications(correlation_id, certification_id);
 COMMIT;
