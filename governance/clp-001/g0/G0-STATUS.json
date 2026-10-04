@@ -1,0 +1,27 @@
+{
+  "status": "BLOCKED_PENDING_SOURCE_BUNDLE_UPLOAD",
+  "repository": "JaeTierce31/EdOpSys",
+  "last_verified_repository_head_before_status_commit": "a82d3f0b048acfda464c73a9cbedbca87695fba3",
+  "required_source_bundles": [
+    {
+      "file": "BUILD-A-source-bundle.json",
+      "bytes": 28575,
+      "sha256": "94598061d5b00454a55907b0ca5e3164396b2cebdc32bdf87077dfe4429f9ea4"
+    },
+    {
+      "file": "BUILD-B-source-bundle.json",
+      "bytes": 46896,
+      "sha256": "8364753ae4db383975d033f35a2450ce675ef8fb50e91483a6f758ad2a25e86d"
+    },
+    {
+      "file": "BUILD-C-source-bundle.json",
+      "bytes": 157376,
+      "sha256": "23c9fdc618cbbc49d4259a1c6829a813b898352d58fb5175086cac05fd786503"
+    }
+  ],
+  "target_path": "governance/clp-001/g0/source-bundles/",
+  "g0_designated": false,
+  "g1_authorized": false,
+  "build_clp_001_p_authorized": false,
+  "fail_closed_reason": "The connected GitHub write interface does not expose a local-file upload parameter and rejects or truncates oversized inline payloads. G0 requires byte-exact repository materialization and hash verification of all three source bundles."
+}
