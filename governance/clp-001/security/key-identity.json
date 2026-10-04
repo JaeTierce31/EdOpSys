@@ -3,7 +3,7 @@
   "identity_binding": "Repository-control binding via JaeTierce31/EdOpSys governance commits; not an external CA identity.",
   "issuer_label": "JaeTierce31/EdOpSys CLP Freeze Authority",
   "key_id": "ed25519:67c7c922746079bf8277632fe889ecd8",
-  "private_key_persistence": "EPHEMERAL_PENDING_G1; MUST NOT BE COMMITTED",
+  "private_key_persistence": "DESTROYED_AFTER_STAGING_RECEIPT; NEW KEY REQUIRED FOR G1",
   "public_key_sha256": "42217f22711e66ade060c6020675009b79a9be2a3e0e6fb7b5d9c36dd038b5ba",
-  "purpose": "CLP-001 repository-bound freeze and certification attestation"
+  "purpose": "Verify CLP-001 EdOpSys staging receipt only; not valid for future G1 issuance"
 }
