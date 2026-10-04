@@ -1,0 +1,31 @@
+name: Materialize CLP-001 G0 bundles
+
+on:
+  push:
+    paths:
+      - governance/clp-001/g0/materialize/TRIGGER
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout triggering head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Materialize and verify canonical bundles
+        run: bash governance/clp-001/g0/materialize/materialize.sh
+
+      - name: Commit verified G0 materialization
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add governance/clp-001/g0/source-bundles
+          git rm -r governance/clp-001/g0/materialize
+          git commit -m "governance: materialize verified CLP-001 G0 source bundles"
+          git push origin HEAD:main
