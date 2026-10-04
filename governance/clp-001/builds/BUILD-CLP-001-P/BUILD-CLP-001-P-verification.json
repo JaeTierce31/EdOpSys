@@ -1,0 +1,20 @@
+{
+  "build_id": "BUILD-CLP-001-P",
+  "governance": {
+    "authorization_commit": "3753687529f797cd98006cd69b563d354b3bb094",
+    "clp001_certification_hash": "sha256:dc0537dbef4b0e595c7712416d0e47c49d99208efc13706759af061eed192423",
+    "g0_commit": "adab09caa0093c9490a8f1ab215a719bf0fa9aa4",
+    "g1_commit": "dddd7d91494a5c3916146387828efd643b957fa2"
+  },
+  "source_tree_hash": "sha256:9c3d32b3f8a0583d4deeee31947592e4396bdf7f644fe313a29ddc222c127132",
+  "status": "VERIFIED_LOCAL_PRECOMMIT",
+  "verification": {
+    "build_b_output_hash": "sha256:3b763fccc96284a0ac7e76c271eecb2e08ba43a1ebe1de15921ab18992216eae",
+    "build_b_regression": "37/37 PASS",
+    "build_c_output_hash": "sha256:cecfe1c5bc9c44ca28643f83c718534b5aa231356227f21a1c7f2633a003c77f",
+    "build_c_regression": "7/7 PASS",
+    "build_p_output_hash": "sha256:c4676afb0ee997a258aaff0ccca6c6ec54fde4aa91b0776025bed2fe0227b109",
+    "build_p_suite": "26/26 PASS"
+  },
+  "version": "1.0.0"
+}

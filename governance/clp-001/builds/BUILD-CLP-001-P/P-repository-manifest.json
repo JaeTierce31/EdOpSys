@@ -1,0 +1,30 @@
+{
+  "build_id": "BUILD-CLP-001-P",
+  "fragments": [
+    {
+      "bytes": 17033,
+      "name": "P-core-source.json",
+      "sha256": "69eaf51d998e274a443fd2733a8ecf412ce8a94b097d91939b3f117b273ad020"
+    },
+    {
+      "bytes": 12072,
+      "name": "P-adapter-source.json",
+      "sha256": "cf378d3496457d0286b0d4120ed4111d0695dfc546cd004aac300242d2ccfefc"
+    },
+    {
+      "bytes": 14949,
+      "name": "P-tests-source.json",
+      "sha256": "00ff3d2ab8e58dec8236e904659bf188a052089078aac3a4effbe5c9315c0434"
+    },
+    {
+      "bytes": 9216,
+      "name": "P-support-source.json",
+      "sha256": "0f40b1c0efd9cd1a176fd2b54953cce1d0573aa1e928305789cdb062017d106a"
+    }
+  ],
+  "governance_parent": "3753687529f797cd98006cd69b563d354b3bb094",
+  "manifest_hash": "sha256:88a265c4172a1003568722fe55a8d09dee5bf60412215ada0e52a62c0ab1e40b",
+  "package_zip_bytes": 100645,
+  "package_zip_sha256": "896d71d04f555301ee037a59be169264c2d5d4b2e29196eea64a665db7eb632d",
+  "version": "1.0.0"
+}
