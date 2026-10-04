@@ -1,7 +1,7 @@
 BEGIN;
 SET search_path=edopsys_observability,public;
 CREATE OR REPLACE FUNCTION pg_temp.assert_eq(actual text,expected text,label text) RETURNS void LANGUAGE plpgsql AS $$BEGIN IF actual IS DISTINCT FROM expected THEN RAISE EXCEPTION '% expected %, got %',label,expected,actual; END IF;END$$;
-CREATE OR REPLACE FUNCTION pg_temp.assert_gt0(actual int,label text) RETURNS void LANGUAGE plpgsql AS $$BEGIN IF actual IS NULL OR actual<=0 THEN RAISE EXCEPTION '% expected >0, got %',label,actual; END IF;END$$;
+CREATE OR REPLACE FUNCTION pg_temp.assert_gt0(actual bigint,label text) RETURNS void LANGUAGE plpgsql AS $$BEGIN IF actual IS NULL OR actual<=0 THEN RAISE EXCEPTION '% expected >0, got %',label,actual; END IF;END$$;
 CREATE OR REPLACE FUNCTION pg_temp.obs(repo text,id text,typ text) RETURNS void LANGUAGE plpgsql AS $$BEGIN INSERT INTO obs_observations VALUES(id,repo,typ,id,NULL,clock_timestamp(),'sha256:'||repeat('a',64),'{}');END$$;
 CREATE OR REPLACE FUNCTION pg_temp.base(repo text,id text) RETURNS void LANGUAGE plpgsql AS $$BEGIN PERFORM pg_temp.obs(repo,id,'REPOSITORY_HEAD');INSERT INTO repository_baseline VALUES(id,repo,'head','BUILD-X','g0','g1','p','q','r',clock_timestamp());END$$;
 CREATE OR REPLACE FUNCTION pg_temp.core(repo text,prefix text) RETURNS void LANGUAGE plpgsql AS $$BEGIN
