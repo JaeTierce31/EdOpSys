@@ -1,0 +1,22 @@
+{
+  "base_implementation_commit": "726e5339173435fbe11c30391f91f95ca33e8441",
+  "base_receipt_commit": "4de2e2fbc8498eb515c5837d124370e0f1724a96",
+  "build_id": "BUILD-CLP-001-P",
+  "correction_overlay_sha256": "sha256:cdb1ec1addb40d78c66b5152897eefe0131c7ea605c3c9348e843ff682498b79",
+  "findings_resolved": [
+    "transition_state_binding",
+    "restored_version_hash_verification",
+    "per_correlation_chain_ordinals",
+    "correlation_scoped_replay_artifacts"
+  ],
+  "package_sha256": "sha256:16df3fdba25eba83ab58c1250b8198551050c24df50273dac7c40980e8ef9c0e",
+  "source_tree_hash": "sha256:4e44d66dacbff26c76687a5c621cbe6dfa2aea1d11dbd021e22e46fdcd108d93",
+  "status": "REVIEW_FINDINGS_RESOLVED_VERIFIED",
+  "verification": {
+    "build_b": "37/37 PASS",
+    "build_c": "7/7 PASS",
+    "build_p": "30/30 PASS",
+    "clean_unzip": "PASS"
+  },
+  "version": "1.0.1"
+}
