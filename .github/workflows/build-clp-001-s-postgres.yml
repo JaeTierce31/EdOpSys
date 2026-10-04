@@ -24,7 +24,7 @@ jobs:
       PGUSER: postgres
       PGPASSWORD: postgres
       PGDATABASE: postgres
-      FROZEN_S_MANIFEST_SHA256: 1f108d86ca0166c2c6ec018ca46bf589428b60969027ac2e35e8bfaccff9e68a
+      FROZEN_S_MANIFEST_SHA256: aba8841c7e0c175c308e7e6410367874a9e41ec562de53bfd38e5820a728ea25
     steps:
       - uses: actions/checkout@v4
       - name: Report exact S source hashes
