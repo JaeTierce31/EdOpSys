@@ -1,0 +1,23 @@
+{
+  "authority_hardening": "PASS",
+  "authority_head_sha": "6418687e78c39e753caef79aeb9cc9428a702d4d",
+  "bootstrap_sha": "84c042df9cbf20d53da2faa40c448a952a138b23",
+  "build_artifacts": {
+    "A_zip_sha256": "72fb6de988ec89f078e538e433413802a1a131be4eb0e338869506364ab91ca6",
+    "B_zip_sha256": "f0b5be0987dce13af15e888348fb604da898f5cffbe706c8ce0c28bd7c6750bf",
+    "C_zip_sha256": "c234910fd178868971ac78c088064c2744525bf95eceb9b62c8c40645a82f885",
+    "hardening_zip_sha256": "38eb525918b2ba6fb2fc23504290ba5f261574e63b1b7edbef578bd4cd3f3342"
+  },
+  "build_d_authorization": "DENIED",
+  "canonical_source_bundle_hashes": {
+    "A": "sha256:94598061d5b00454a55907b0ca5e3164396b2cebdc32bdf87077dfe4429f9ea4",
+    "B": "sha256:8364753ae4db383975d033f35a2450ce675ef8fb50e91483a6f758ad2a25e86d",
+    "C": "sha256:23c9fdc618cbbc49d4259a1c6829a813b898352d58fb5175086cac05fd786503"
+  },
+  "g0_status": "NOT_FROZEN",
+  "g1_status": "NOT_ISSUED",
+  "historical_replay_hash": "sha256:62e1f774d99ea358a40956be98bb6b3516a6bbfa4f6ca9cad040a7794a1b79f9",
+  "receipt_id": "CLP-001-EDOPSYS-STAGING-1",
+  "repository": "JaeTierce31/EdOpSys",
+  "source_materialization_status": "PENDING_CONNECTOR_TEXT_SIZE_OR_MANUAL_GIT_PUSH"
+}
