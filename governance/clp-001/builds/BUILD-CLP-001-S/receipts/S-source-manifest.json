@@ -1,6 +1,6 @@
 {
   "build_id": "BUILD-CLP-001-S",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "parent_baseline": "b0f19f2d0ce8a086604ed1f08d1202cd5650dae8",
   "files": [
     {
@@ -19,9 +19,19 @@
       "sha256": "5c2b7997062ccc6027388095594cfa5add10072643ee3cdbb5bc8407538e3413"
     },
     {
+      "path": "migrations/006_clp001_s_exact_evidence_binding.sql",
+      "bytes": 6515,
+      "sha256": "e82548de31db5ad7dd2af2b6da2e925fa0250bbf5bfebf310f7fe33c76fde2dc"
+    },
+    {
       "path": "tests/s-health.sql",
       "bytes": 14026,
       "sha256": "b2926005e54f868dd46c6d3c78bf38a5fb26bbf5243c7374d2d1af5977d4505f"
+    },
+    {
+      "path": "tests/s-health-v102.sql",
+      "bytes": 4092,
+      "sha256": "ac9ca41431e0b1a6af2160c777f13a5644391db878c2932e8eed9a8b6cc1b810"
     },
     {
       "path": "fixtures/repository-observations.sql",
