@@ -4,7 +4,14 @@ SET search_path=edopsys_observability,public;
 -- Stable logical key permits append-only review finding state transitions.
 ALTER TABLE pr_reviews ADD COLUMN finding_key text NOT NULL DEFAULT '__summary__';
 
-CREATE OR REPLACE VIEW v_review_health AS
+-- Projection-only migration: drop affected derived views in dependency order.
+DROP VIEW v_dashboard_summary_json;
+DROP VIEW v_repository_health;
+DROP VIEW v_review_health;
+DROP VIEW v_authority_health;
+DROP VIEW v_governance_drift;
+
+CREATE VIEW v_review_health AS
 WITH repos AS (
   SELECT DISTINCT repository FROM repository_baseline
 ), latest AS (
@@ -28,7 +35,7 @@ SELECT *,CASE
   ELSE 'UNKNOWN' END health
 FROM agg;
 
-CREATE OR REPLACE VIEW v_authority_health AS
+CREATE VIEW v_authority_health AS
 SELECT r.repository,CASE
   WHEN count(a.*) FILTER(WHERE freshness_status='CONFLICT' AND execution_blocking)>0 THEN 'BLOCKED'
   WHEN count(a.*)=0 OR count(a.*) FILTER(WHERE freshness_status='UNKNOWN')>0 THEN 'UNKNOWN'
@@ -37,7 +44,7 @@ SELECT r.repository,CASE
 FROM (SELECT DISTINCT repository FROM repository_baseline) r
 LEFT JOIN authority_records a USING(repository) GROUP BY r.repository;
 
-CREATE OR REPLACE VIEW v_governance_drift AS
+CREATE VIEW v_governance_drift AS
 SELECT r.repository,
   count(d.*) drift_observation_count,
   count(d.*) FILTER(WHERE resolution_status='OPEN' AND severity IN('P0','P1')) blocking_open_count,
@@ -50,7 +57,7 @@ SELECT r.repository,
 FROM (SELECT DISTINCT repository FROM repository_baseline) r
 LEFT JOIN governance_drift_findings d USING(repository) GROUP BY r.repository;
 
-CREATE OR REPLACE VIEW v_repository_health AS
+CREATE VIEW v_repository_health AS
 WITH b AS (
   SELECT DISTINCT ON(repository)* FROM repository_baseline ORDER BY repository,observed_at DESC,id DESC
 ), bu AS (
@@ -84,7 +91,7 @@ LEFT JOIN bu USING(repository)
 LEFT JOIN v_ci_health ci ON ci.repository=b.repository AND ci.build_id=b.latest_merged_build
 LEFT JOIN i USING(repository) LEFT JOIN rv USING(repository) LEFT JOIN a USING(repository) LEFT JOIN d USING(repository);
 
-CREATE OR REPLACE VIEW v_dashboard_summary_json AS
+CREATE VIEW v_dashboard_summary_json AS
 SELECT repository,jsonb_build_object(
   'overall_health',overall_health,'canonical_head',canonical_head,'latest_build',latest_merged_build,'blocking_reason_count',blocking_reason_count,
   'gates',jsonb_build_object('governance',governance_status,'build',build_status,'ci',ci_status,'integrity',integrity_status,'review',review_status,'authority',authority_status,'drift',drift_status),
