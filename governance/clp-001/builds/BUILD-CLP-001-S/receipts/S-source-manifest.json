@@ -1,6 +1,6 @@
 {
   "build_id": "BUILD-CLP-001-S",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "parent_baseline": "b0f19f2d0ce8a086604ed1f08d1202cd5650dae8",
   "files": [
     {
@@ -14,14 +14,19 @@
       "sha256": "8fa03938fbd79d7bd92afa9125187c0f7794aaea4c5280becfa869bcebf7ecfe"
     },
     {
+      "path": "migrations/005_clp001_s_canonical_binding.sql",
+      "bytes": 8194,
+      "sha256": "5c2b7997062ccc6027388095594cfa5add10072643ee3cdbb5bc8407538e3413"
+    },
+    {
       "path": "tests/s-health.sql",
-      "bytes": 9641,
-      "sha256": "46efb296a55c90f1f63da750f0796c38c0f6d7fcb20818bb9dca5fc82b8b880d"
+      "bytes": 14026,
+      "sha256": "b2926005e54f868dd46c6d3c78bf38a5fb26bbf5243c7374d2d1af5977d4505f"
     },
     {
       "path": "fixtures/repository-observations.sql",
-      "bytes": 4824,
-      "sha256": "aae7e041697e63397877fcef5fe2e918f7e2f241ea053175df27da051b614120"
+      "bytes": 4945,
+      "sha256": "396b4c1d5aa37a97af1c3fc2aa5caf18149fe2ad87e05b0cc96a7074769fac5f"
     },
     {
       "path": "fixtures/G0-STATUS-SUPERSESSION.json",
