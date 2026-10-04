@@ -1,0 +1,43 @@
+name: BUILD-CLP-001-R PostgreSQL Recovery Gate
+on:
+  pull_request:
+    paths:
+      - 'governance/clp-001/builds/BUILD-CLP-001-R/**'
+      - '.github/workflows/build-clp-001-r-postgres.yml'
+jobs:
+  postgres-r-contract:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Materialize R recovery scripts
+        run: |
+          mkdir -p migrations scripts tests/r
+          cp governance/clp-001/builds/BUILD-CLP-001-Q/migrations/001_clp001_q.sql migrations/001_clp001_q.sql
+          cp governance/clp-001/builds/BUILD-CLP-001-R/migrations/002_clp001_r.sql migrations/002_clp001_r.sql
+          python3 - <<'PY'
+          import json, pathlib
+          obj=json.loads(pathlib.Path('governance/clp-001/builds/BUILD-CLP-001-R/R-tests.json').read_text())
+          for item in obj['files']:
+              p=pathlib.Path(item['path']); p.parent.mkdir(parents=True,exist_ok=True); p.write_text(item['content'])
+          PY
+          chmod +x scripts/postgres-r-backup-restore.sh
+      - name: Run R native backup restore gate
+        run: bash scripts/postgres-r-backup-restore.sh
