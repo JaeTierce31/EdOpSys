@@ -24,15 +24,41 @@ jobs:
       PGUSER: postgres
       PGPASSWORD: postgres
       PGDATABASE: postgres
+      FROZEN_S_MANIFEST_SHA256: TO_BE_FROZEN
     steps:
       - uses: actions/checkout@v4
       - name: Verify frozen S source manifest
         run: |
           python3 - <<'PY'
-          import hashlib, json, pathlib, sys
+          import hashlib, json, os, pathlib, sys
           root = pathlib.Path('governance/clp-001/builds/BUILD-CLP-001-S')
-          manifest = json.loads((root / 'receipts/S-source-manifest.json').read_text())
+          manifest_path = root / 'receipts/S-source-manifest.json'
+          receipt_path = root / 'receipts/BUILD-CLP-001-S-verification.json'
+          manifest_bytes = manifest_path.read_bytes()
+          manifest_sha = hashlib.sha256(manifest_bytes).hexdigest()
+          manifest = json.loads(manifest_bytes)
+          receipt = json.loads(receipt_path.read_text())
+          frozen_sha = os.environ['FROZEN_S_MANIFEST_SHA256']
           failures = []
+          if manifest_sha != frozen_sha:
+              failures.append(f'MANIFEST_DIGEST expected={frozen_sha} observed={manifest_sha}')
+          if receipt.get('source_manifest_sha256') != manifest_sha:
+              failures.append(f"RECEIPT_MANIFEST_DIGEST expected={receipt.get('source_manifest_sha256')} observed={manifest_sha}")
+          required = {
+              'migrations/003_clp001_s_governance_health.sql',
+              'migrations/004_clp001_s_review_hardening.sql',
+              'migrations/005_clp001_s_canonical_binding.sql',
+              'tests/s-health.sql',
+              'fixtures/repository-observations.sql',
+              'fixtures/G0-STATUS-SUPERSESSION.json',
+              'fixtures/R-INDEPENDENT-REVIEW-RECEIPT.json',
+              'README-S.md',
+              'docs/BUILD-CLP-001-S-SPEC.md',
+              'docs/2026-10-04-build-clp-001-s-plan.md',
+          }
+          listed = [item['path'] for item in manifest['files']]
+          if set(listed) != required or len(listed) != len(required):
+              failures.append(f'INVENTORY expected={sorted(required)} observed={sorted(listed)}')
           for item in manifest['files']:
               path = root / item['path']
               if not path.is_file():
@@ -49,7 +75,7 @@ jobs:
           if failures:
               print('\n'.join(failures), file=sys.stderr)
               raise SystemExit(1)
-          print('S_SOURCE_MANIFEST_PASS')
+          print(f'S_SOURCE_MANIFEST_PASS {manifest_sha}')
           PY
       - name: Report workflow hash
         run: sha256sum .github/workflows/build-clp-001-s-postgres.yml
@@ -61,16 +87,15 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-R/migrations/002_clp001_r.sql
           psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/migrations/003_clp001_s_governance_health.sql
           psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/migrations/004_clp001_s_review_hardening.sql
+          psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/migrations/005_clp001_s_canonical_binding.sql
       - name: Load repository governance observations
         run: psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/fixtures/repository-observations.sql
-      - name: Run deterministic S health rules T1-T10
+      - name: Run deterministic S health rules T1-T14
         run: psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/tests/s-health.sql
       - name: Verify live EdOpSys projection
         run: |
-          actual=$(psql -Atc "SELECT overall_health FROM edopsys_observability.v_repository_health WHERE repository='JaeTierce31/EdOpSys'")
-          blockers=$(psql -Atc "SELECT blocking_reason_count FROM edopsys_observability.v_repository_health WHERE repository='JaeTierce31/EdOpSys'")
-          test "$actual" = "DEGRADED"
-          test "$blockers" = "0"
+          row=$(psql -At -F '|' -c "SELECT overall_health,blocking_reason_count,governance_status,build_status,ci_status,integrity_status,review_status,authority_status,drift_status FROM edopsys_observability.v_repository_health WHERE repository='JaeTierce31/EdOpSys'")
+          test "$row" = "DEGRADED|0|CURRENT|HEALTHY|PASS|HEALTHY|HEALTHY|DEGRADED|HEALTHY"
           json=$(psql -Atc "SELECT dashboard::text FROM edopsys_observability.v_dashboard_summary_json WHERE repository='JaeTierce31/EdOpSys'")
           test -n "$json"
           echo "$json"
