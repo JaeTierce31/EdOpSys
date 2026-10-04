@@ -1,0 +1,32 @@
+name: BUILD-CLP-001-Q PostgreSQL Gate
+on:
+  pull_request:
+    paths:
+      - 'governance/clp-001/builds/BUILD-CLP-001-Q/**'
+      - '.github/workflows/build-clp-001-q-postgres.yml'
+jobs:
+  postgres-contract:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: clp001q
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d clp001q"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGPASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Run Q migration and database invariants
+        working-directory: governance/clp-001/builds/BUILD-CLP-001-Q
+        run: psql -h 127.0.0.1 -U postgres -d clp001q -f scripts/postgres-q-integration.sql

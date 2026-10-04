@@ -1,0 +1,23 @@
+{
+  "build_id": "BUILD-CLP-001-Q",
+  "files": [
+    {"bytes":3593,"path":"migrations/001_clp001_q.sql","sha256":"8f21b6ca8e17f02049f1013dd6d1e773035e54285d5c603b0ba6fc064df97390"},
+    {"bytes":1182,"path":"src/q-contract.ts","sha256":"c6263459fcf24960519e6e83c906848594253290f03d29a1d87bfd3a95189aa3"},
+    {"bytes":2858,"path":"src/q-reference-store.ts","sha256":"7afe950e20aff8a262e94ab1a2c24a7c18dea83df97ca9967e802c92c7a39fa4"},
+    {"bytes":5733,"path":"src/q-postgres-store.ts","sha256":"ae705bce56345db02cd7596d09e49913bfe1006226884ce6bcfc22a334ed79f0"},
+    {"bytes":1167,"path":"src/q-recovery.ts","sha256":"fdb43d3a5b29542907db70436b6b1a6fb32929e28caee15f5de415f6f88ea5e4"},
+    {"bytes":2150,"path":"src/q-service.ts","sha256":"073342c8137cf31e8939d854dc9358340f6c71e95adfa58f1aecf8d536bd6047"},
+    {"bytes":1147,"path":"src/q-transport.ts","sha256":"790dc4db9c29fbddfc1cb33ddfea8fdb85e93660302d1d9058a590cdd7daff07"},
+    {"bytes":1814,"path":"tests/q/migration-contract.test.mjs","sha256":"3ed6b499113c1ca84d4e7b93ed877cbf4d58a4d5ad324a085edf4dcd92428494"},
+    {"bytes":3772,"path":"tests/q/transactional-store.test.mjs","sha256":"748304aa28f2be2134c1c9e46d3a2aaf07327668994a96ac0f796a24f806ef53"},
+    {"bytes":2931,"path":"tests/q/recovery-concurrency.test.mjs","sha256":"bd1b64db19bd8dd22a62b446d371f6370f17ad400bd04e5bc90c9f6337e956c0"},
+    {"bytes":3366,"path":"tests/q/transport.test.mjs","sha256":"f57a471f3c098b9ab9393ba5ef86a43b91d7028dfeeedb4e99d10f3f1c757708"},
+    {"bytes":1233,"path":"POSTGRES-BACKUP-RESTORE.md","sha256":"3aaa059945863ad3b7f3e2532f0aaa436e6240e6f109dc40b4498a708bebc55d"},
+    {"bytes":1213,"path":"README-Q.md","sha256":"91ba0c9bb702bd93fb2f29964c41fbabf050519cda1119551111cd580132152a"},
+    {"bytes":4285,"path":"docs/superpowers/plans/2026-10-04-build-clp-001-q.md","sha256":"c2a140c4c8321162f412ed3451b475e3b306bec744370df742855c7c460a5125"},
+    {"bytes":2486,"path":"scripts/postgres-q-integration.sql","sha256":"a23f328c573e6a013a28657e08b1730139db6b50b2943e6cbe7335329d7db792"}
+  ],
+  "parent_merged_p_sha":"95a1da390d81d3fefe611c74405505aa28fa686d",
+  "source_tree_hash":"sha256:1b6195f1a21289e1e326924f7a00b4bcdea5af540e8009b2633068f261f8ddf2",
+  "version":"1.0.0"
+}

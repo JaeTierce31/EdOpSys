@@ -1,0 +1,17 @@
+{
+  "build_id": "BUILD-CLP-001-Q",
+  "live_postgres_gate": "PENDING_GITHUB_CI",
+  "local_build": "PASS",
+  "local_postgres_server_available": false,
+  "migration_sha256": "8f21b6ca8e17f02049f1013dd6d1e773035e54285d5c603b0ba6fc064df97390",
+  "parent_merged_p_sha": "95a1da390d81d3fefe611c74405505aa28fa686d",
+  "scope": "durable transactional persistence + guarded API transport only",
+  "source_tree_hash": "sha256:1b6195f1a21289e1e326924f7a00b4bcdea5af540e8009b2633068f261f8ddf2",
+  "tests": {
+    "B": "37/37 PASS",
+    "C": "7/7 PASS",
+    "P": "30/30 PASS",
+    "Q": "17/17 PASS"
+  },
+  "version": "1.0.0"
+}
