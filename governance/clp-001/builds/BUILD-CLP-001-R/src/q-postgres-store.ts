@@ -4,7 +4,7 @@ import { replayPersistedCase } from './adapter.js';
 import type { AppendBundle, CaseStateReceipt, CertificationWrite, DurableAppendResult, DurableBackup, DurableStore, ReplayEnvelope, SqlClient, SqlPool } from './q-contract.js';
 
 function makeStateReceipt(bundle:AppendBundle,prior:string|null):CaseStateReceipt{
-  const state=bundle.state?.state ?? bundle.event.decision ?? prior ?? 'REPORTED';
+  const state=bundle.event.decision ?? prior ?? 'REPORTED';
   const base={correlation_id:bundle.event.correlation_id,aggregate_id:bundle.event.aggregate_id,aggregate_version:bundle.event.aggregate_version,source_event_id:bundle.event.event_id,state};
   const receipt={...base,state_hash:hashCanonical(base)};
   if(bundle.state && hashCanonical(bundle.state)!==hashCanonical(receipt)) throw new Error('state receipt mismatch');

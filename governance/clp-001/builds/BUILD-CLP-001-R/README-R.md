@@ -1,4 +1,4 @@
-# BUILD-CLP-001-R v1.0.2
+# BUILD-CLP-001-R v1.0.3
 
 Infrastructure-only successor to merged BUILD-CLP-001-Q. Parent repository baseline: `5427aff8c10370085546cf98ae83dacd5939bb0a`.
 

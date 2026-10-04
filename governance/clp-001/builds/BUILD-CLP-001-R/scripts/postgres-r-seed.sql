@@ -7,3 +7,9 @@ INSERT INTO clp_case_state_history(correlation_id,aggregate_id,aggregate_version
 VALUES('corr-r-seed','CASE-R-SEED',1,'evt-r-seed','INTAKE_STRUCTURED','sha256:state-r');
 INSERT INTO clp_certifications(certification_id,certification_hash,payload,correlation_id)
 VALUES('CERT-R-SEED','sha256:cert-r','{"certification_id":"CERT-R-SEED","status":"PASS"}'::jsonb,'corr-r-seed');
+INSERT INTO clp_evidence(evidence_id,correlation_id,content_hash,payload)
+VALUES('EVID-R-SEED','corr-r-seed','sha256:evidence-r','{"evidence_id":"EVID-R-SEED","kind":"TEST_EVIDENCE","content_hash":"sha256:evidence-r"}'::jsonb);
+INSERT INTO clp_chain(event_id,correlation_id,ordinal,event_hash,previous_chain_hash,chain_hash)
+VALUES('evt-r-seed','corr-r-seed',1,'sha256:event-r',NULL,'sha256:chain-r');
+INSERT INTO clp_lineage(lineage_id,correlation_id,parents,payload)
+VALUES('LINEAGE-R-SEED','corr-r-seed','[]'::jsonb,'{"id":"LINEAGE-R-SEED","parents":[]}'::jsonb);

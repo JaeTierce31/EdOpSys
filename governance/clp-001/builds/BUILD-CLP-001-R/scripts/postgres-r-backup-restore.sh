@@ -21,6 +21,9 @@ projection_sql="SELECT md5(jsonb_build_object(
  'events',(SELECT jsonb_agg(to_jsonb(t) ORDER BY aggregate_version) FROM (SELECT event_id,correlation_id,aggregate_id,aggregate_version,event_type,decision,event_hash,payload FROM clp_events WHERE correlation_id='corr-r-seed') t),
  'state',(SELECT jsonb_agg(to_jsonb(t) ORDER BY aggregate_version) FROM (SELECT correlation_id,aggregate_id,aggregate_version,source_event_id,state,state_hash FROM clp_case_state_history WHERE correlation_id='corr-r-seed') t),
  'versions',(SELECT jsonb_agg(to_jsonb(t) ORDER BY version_ref) FROM (SELECT version_ref,canonical_hash,payload FROM clp_versions WHERE version_ref='CLP-001-TRANSITIONS@1.0.0') t),
+ 'evidence',(SELECT jsonb_agg(to_jsonb(t) ORDER BY evidence_id) FROM (SELECT evidence_id,correlation_id,content_hash,payload FROM clp_evidence WHERE correlation_id='corr-r-seed') t),
+ 'chain',(SELECT jsonb_agg(to_jsonb(t) ORDER BY ordinal) FROM (SELECT event_id,correlation_id,ordinal,event_hash,previous_chain_hash,chain_hash FROM clp_chain WHERE correlation_id='corr-r-seed') t),
+ 'lineage',(SELECT jsonb_agg(to_jsonb(t) ORDER BY lineage_id) FROM (SELECT lineage_id,correlation_id,parents,payload FROM clp_lineage WHERE correlation_id='corr-r-seed') t),
  'certifications',(SELECT jsonb_agg(to_jsonb(t) ORDER BY certification_id) FROM (SELECT certification_id,certification_hash,payload,correlation_id FROM clp_certifications WHERE correlation_id='corr-r-seed') t)
 )::text);"
 SRC_DIGEST=$(psql -At -d "$SRC_DB" -c "$projection_sql")

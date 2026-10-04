@@ -100,3 +100,14 @@ test('certification correlation binding is immutable across idempotent payload r
   await assert.rejects(store.appendBundle(bundleFor(other,'cmd-bound-b',{certifications:[cert]})),/immutable certification correlation conflict/);
   assert.deepEqual(Object.fromEntries(store.backup().certification_correlations),{'CERT-BOUND':g.correlation_id});
 });
+
+test('caller-supplied state receipt cannot override event-derived authoritative state', async()=>{
+  const g=buildGoldenCase();
+  const store=new ReferenceTransactionalStore();
+  for(const ev of g.events.slice(0,3)) await store.appendBundle(bundleFor(ev,`cmd-state-${ev.aggregate_version}`));
+  const ev=g.events[3];
+  const base={correlation_id:ev.correlation_id,aggregate_id:ev.aggregate_id,aggregate_version:ev.aggregate_version,source_event_id:ev.event_id,state:'AUTHORITY_RESOLVED'};
+  const forged={...base,state_hash:hashCanonical(base)};
+  await assert.rejects(store.appendBundle({...bundleFor(ev,'cmd-forged-state'),state:forged}),/state receipt mismatch/);
+  assert.equal(await store.caseState(g.correlation_id),'INTAKE_STRUCTURED');
+});
