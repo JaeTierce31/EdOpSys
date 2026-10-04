@@ -34,7 +34,9 @@ jobs:
             migrations/003_clp001_s_governance_health.sql \
             migrations/004_clp001_s_review_hardening.sql \
             migrations/005_clp001_s_canonical_binding.sql \
+            migrations/006_clp001_s_exact_evidence_binding.sql \
             tests/s-health.sql \
+            tests/s-health-v102.sql \
             fixtures/repository-observations.sql \
             fixtures/G0-STATUS-SUPERSESSION.json \
             fixtures/R-INDEPENDENT-REVIEW-RECEIPT.json \
@@ -66,7 +68,9 @@ jobs:
               'migrations/003_clp001_s_governance_health.sql',
               'migrations/004_clp001_s_review_hardening.sql',
               'migrations/005_clp001_s_canonical_binding.sql',
+              'migrations/006_clp001_s_exact_evidence_binding.sql',
               'tests/s-health.sql',
+              'tests/s-health-v102.sql',
               'fixtures/repository-observations.sql',
               'fixtures/G0-STATUS-SUPERSESSION.json',
               'fixtures/R-INDEPENDENT-REVIEW-RECEIPT.json',
@@ -106,10 +110,13 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/migrations/003_clp001_s_governance_health.sql
           psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/migrations/004_clp001_s_review_hardening.sql
           psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/migrations/005_clp001_s_canonical_binding.sql
+          psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/migrations/006_clp001_s_exact_evidence_binding.sql
       - name: Load repository governance observations
         run: psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/fixtures/repository-observations.sql
       - name: Run deterministic S health rules T1-T14
         run: psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/tests/s-health.sql
+      - name: Run deterministic S v1.0.2 rules T15-T16
+        run: psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/tests/s-health-v102.sql
       - name: Verify live EdOpSys projection
         run: |
           row=$(psql -At -F '|' -c "SELECT overall_health,blocking_reason_count,governance_status,build_status,ci_status,integrity_status,review_status,authority_status,drift_status FROM edopsys_observability.v_repository_health WHERE repository='JaeTierce31/EdOpSys'")
