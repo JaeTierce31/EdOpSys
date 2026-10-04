@@ -1,0 +1,46 @@
+name: BUILD-CLP-001-S Governance Health Gate
+on:
+  pull_request:
+    paths:
+      - 'governance/clp-001/builds/BUILD-CLP-001-S/**'
+      - '.github/workflows/build-clp-001-s-postgres.yml'
+jobs:
+  postgres-s-health:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Apply Q, R, S migrations
+        run: |
+          psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-Q/migrations/001_clp001_q.sql
+          psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-R/migrations/002_clp001_r.sql
+          psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/migrations/003_clp001_s_governance_health.sql
+      - name: Load repository governance observations
+        run: psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/fixtures/repository-observations.sql
+      - name: Run deterministic S health rules T1-T10
+        run: psql -v ON_ERROR_STOP=1 -f governance/clp-001/builds/BUILD-CLP-001-S/tests/s-health.sql
+      - name: Verify live EdOpSys projection
+        run: |
+          actual=$(psql -Atc "SELECT overall_health FROM edopsys_observability.v_repository_health WHERE repository='JaeTierce31/EdOpSys'")
+          test "$actual" = "DEGRADED"
+          json=$(psql -Atc "SELECT dashboard::text FROM edopsys_observability.v_dashboard_summary_json WHERE repository='JaeTierce31/EdOpSys'")
+          test -n "$json"
+          echo "$json"
