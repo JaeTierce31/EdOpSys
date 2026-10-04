@@ -24,3 +24,12 @@ test('R recovery gate seeds populated Q data before migration 002 and asserts ba
   assert.match(sh,/corr-r-legacy/);
   assert.match(sh,/CERT-R-LEGACY/);
 });
+
+
+test('R recovery projection covers both migrated legacy and R-native correlations',()=>{
+  const sh=fs.readFileSync(new URL('../../scripts/postgres-r-backup-restore.sh',import.meta.url),'utf8');
+  assert.match(sh,/corr-r-legacy/);
+  assert.match(sh,/corr-r-seed/);
+  assert.match(sh,/IN \('corr-r-seed','corr-r-legacy'\)/);
+  assert.match(sh,/DST_DB.*corr-r-legacy|corr-r-legacy.*DST_DB/s);
+});

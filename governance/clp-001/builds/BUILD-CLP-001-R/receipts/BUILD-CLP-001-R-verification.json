@@ -7,9 +7,9 @@
   "migration_002_sha256": "014219989688420776332ab486c11170b681e705219a7d2abb5d4bf8eb4cc20a",
   "package_sha256_binding": "EXTERNAL_AFTER_EXPORT",
   "parent_merged_q_sha": "5427aff8c10370085546cf98ae83dacd5939bb0a",
-  "source_manifest_sha256": "83a2ce2d76caffa1d15837ff481cb1ee9891e358b5e3c06a362e3f598defc289",
+  "source_manifest_sha256": "71952981d811a7d79c9d2f0e6d8346e8faf330a83a9f9168bf2b9bdb8184293d",
   "tests": {
-    "combined": "57/57 PASS"
+    "combined": "60/60 PASS"
   },
-  "version": "1.0.3"
+  "version": "1.0.4"
 }

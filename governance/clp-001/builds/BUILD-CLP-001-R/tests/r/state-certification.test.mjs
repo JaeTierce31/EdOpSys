@@ -16,8 +16,10 @@ function bundleFor(ev, commandId, opts={}){
 test('null-decision event preserves explicit authoritative state history', async()=>{
   const g=buildGoldenCase();
   const store=new ReferenceTransactionalStore();
+  // Seed events 1..3 so state reaches INTAKE_STRUCTURED.
   for(const ev of g.events.slice(0,3)) await store.appendBundle(bundleFor(ev,`cmd-${ev.aggregate_version}`));
   assert.equal(await store.caseState(g.correlation_id),'INTAKE_STRUCTURED');
+  // Event 4 has null decision and must not reset state.
   await store.appendBundle(bundleFor(g.events[3],'cmd-4'));
   assert.equal(await store.caseState(g.correlation_id),'INTAKE_STRUCTURED');
   const receipt=await store.caseStateReceipt(g.correlation_id);
@@ -101,6 +103,7 @@ test('certification correlation binding is immutable across idempotent payload r
   assert.deepEqual(Object.fromEntries(store.backup().certification_correlations),{'CERT-BOUND':g.correlation_id});
 });
 
+
 test('caller-supplied state receipt cannot override event-derived authoritative state', async()=>{
   const g=buildGoldenCase();
   const store=new ReferenceTransactionalStore();
@@ -110,4 +113,25 @@ test('caller-supplied state receipt cannot override event-derived authoritative 
   const forged={...base,state_hash:hashCanonical(base)};
   await assert.rejects(store.appendBundle({...bundleFor(ev,'cmd-forged-state'),state:forged}),/state receipt mismatch/);
   assert.equal(await store.caseState(g.correlation_id),'INTAKE_STRUCTURED');
+});
+
+
+test('restore rejects supplied empty R metadata when legacy events or certifications exist', async()=>{
+  const g=buildGoldenCase();
+  const store=new ReferenceTransactionalStore();
+  await store.appendBundle(bundleFor(g.events[0],'cmd-empty-meta',{certifications:[{certification_id:'CERT-EMPTY',status:'PASS'}]}));
+  const backup=JSON.parse(JSON.stringify(store.backup()));
+  backup.state_history=[];
+  backup.certification_correlations=[];
+  assert.throws(()=>ReferenceTransactionalStore.restore(backup),/backup state history mismatch|backup certification correlation mismatch/);
+});
+
+test('restore rejects supplied divergent R metadata instead of trusting it', async()=>{
+  const g=buildGoldenCase();
+  const store=new ReferenceTransactionalStore();
+  await store.appendBundle(bundleFor(g.events[0],'cmd-divergent-meta',{certifications:[{certification_id:'CERT-DIVERGENT',status:'PASS'}]}));
+  const backup=JSON.parse(JSON.stringify(store.backup()));
+  backup.state_history[0].state='CLOSED';
+  backup.certification_correlations=[['CERT-DIVERGENT','corr-wrong']];
+  assert.throws(()=>ReferenceTransactionalStore.restore(backup),/backup state history mismatch|backup certification correlation mismatch/);
 });

@@ -2,9 +2,9 @@
   "build_id": "BUILD-CLP-001-R",
   "files": [
     {
-      "bytes": 7248,
+      "bytes": 7996,
       "path": "src/q-reference-store.ts",
-      "sha256": "7fca247957c5f9da86d3ecfc091ba2c2e56917a1dc732256bd9dd36b6b8f62c7"
+      "sha256": "96e2d724a9c13bb18a9f32b407e99acfdc54ab972b7135aaf178a81d7219a5ab"
     },
     {
       "bytes": 7646,
@@ -32,14 +32,14 @@
       "sha256": "014219989688420776332ab486c11170b681e705219a7d2abb5d4bf8eb4cc20a"
     },
     {
-      "bytes": 8238,
+      "bytes": 9451,
       "path": "tests/r/state-certification.test.mjs",
-      "sha256": "5082e94973e9391d11b40aa56b12628bfe124500613ae1b232ff22f8d55e7ddd"
+      "sha256": "40e87e1b3b87a8f3587b164c843d5fc53c1952bb461763588c02e284c2ddcd07"
     },
     {
-      "bytes": 1457,
+      "bytes": 1854,
       "path": "tests/r/postgres-contract.test.mjs",
-      "sha256": "e63bfde94874be250ae7fd9fe33d69278b4ef15590840ad0949885e9b2acc248"
+      "sha256": "52ff7488ad591b3d3b53701fe142fecc2893088abac789bacd7ad67149ecc293"
     },
     {
       "bytes": 1548,
@@ -52,19 +52,19 @@
       "sha256": "79dab9a4b7b855d28d7f7f9481227d364e3ad110043a38a851709bbd38bcf95b"
     },
     {
-      "bytes": 3376,
+      "bytes": 3544,
       "path": "scripts/postgres-r-backup-restore.sh",
-      "sha256": "c71ae7ae0e80741ec09c0f6ca403e925120ab3bad16c40de96221d3676af0fb3"
+      "sha256": "0047f7656034a962f42a56508d0b0330355d0c59ed3dd5568183f3d96895d825"
     },
     {
-      "bytes": 1015,
+      "bytes": 1098,
       "path": "README-R.md",
-      "sha256": "b54237c77dcea73ef7aa5fb8e16f8c07995db28082a3c93ba9fc7066db0bc50a"
+      "sha256": "13c21a6c0e65702cc79030d59c4daa7edd4425bbd7b29e21faf00f1b8c10855e"
     },
     {
-      "bytes": 688,
+      "bytes": 1320,
       "path": "POSTGRES-R-RECOVERY.md",
-      "sha256": "e073e79d56bfc8c78053054a96a74dde95d4c3366d796c6f31c3aa3005c76667"
+      "sha256": "0fd22c1d1307a7dffa52430e7a3d7968ecb7c5561b3a2c078b1f7ce1a6eb8239"
     },
     {
       "bytes": 4610,
@@ -73,5 +73,5 @@
     }
   ],
   "parent_merged_q_sha": "5427aff8c10370085546cf98ae83dacd5939bb0a",
-  "version": "1.0.3"
+  "version": "1.0.4"
 }

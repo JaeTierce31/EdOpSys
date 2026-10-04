@@ -14,8 +14,7 @@ function stateReceipt(bundle:AppendBundle,prior:string|null):CaseStateReceipt{
   return derived;
 }
 
-function reconstructStateHistory(backup:DurableBackup):CaseStateReceipt[]{
-  if(backup.state_history!==undefined) return backup.state_history.map(clone);
+function deriveStateHistory(backup:DurableBackup):CaseStateReceipt[]{
   const byCorrelation=new Map<string,typeof backup.store.events>();
   for(const ev of backup.store.events){
     const xs=byCorrelation.get(ev.correlation_id)??[]; xs.push(ev); byCorrelation.set(ev.correlation_id,xs);
@@ -32,8 +31,14 @@ function reconstructStateHistory(backup:DurableBackup):CaseStateReceipt[]{
   }
   return out;
 }
-function reconstructCertificationCorrelations(backup:DurableBackup):Map<string,string>{
-  if(backup.certification_correlations!==undefined) return new Map(backup.certification_correlations.map(clone));
+function reconstructStateHistory(backup:DurableBackup):CaseStateReceipt[]{
+  const derived=deriveStateHistory(backup);
+  if(backup.state_history===undefined) return derived;
+  const supplied=backup.state_history.map(clone);
+  if(hashCanonical(supplied)!==hashCanonical(derived)) throw new Error('backup state history mismatch');
+  return supplied;
+}
+function deriveCertificationCorrelations(backup:DurableBackup):Map<string,string>{
   const correlations=[...new Set(backup.store.events.map(e=>e.correlation_id))];
   const out=new Map<string,string>();
   for(const [id,raw] of backup.store.certifications??[]){
@@ -44,6 +49,15 @@ function reconstructCertificationCorrelations(backup:DurableBackup):Map<string,s
     throw new Error('ambiguous legacy certification correlation binding');
   }
   return out;
+}
+function reconstructCertificationCorrelations(backup:DurableBackup):Map<string,string>{
+  const derived=deriveCertificationCorrelations(backup);
+  if(backup.certification_correlations===undefined) return derived;
+  const supplied=new Map(backup.certification_correlations.map(clone));
+  const suppliedSorted=[...supplied.entries()].sort(([a],[b])=>a.localeCompare(b));
+  const derivedSorted=[...derived.entries()].sort(([a],[b])=>a.localeCompare(b));
+  if(hashCanonical(suppliedSorted)!==hashCanonical(derivedSorted)) throw new Error('backup certification correlation mismatch');
+  return supplied;
 }
 export class ReferenceTransactionalStore implements DurableStore{
   private store:GovernanceStore;
