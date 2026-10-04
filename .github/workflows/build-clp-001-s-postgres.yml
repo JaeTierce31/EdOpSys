@@ -27,6 +27,24 @@ jobs:
       FROZEN_S_MANIFEST_SHA256: TO_BE_FROZEN
     steps:
       - uses: actions/checkout@v4
+      - name: Report exact S source hashes
+        run: |
+          root=governance/clp-001/builds/BUILD-CLP-001-S
+          for f in \
+            migrations/003_clp001_s_governance_health.sql \
+            migrations/004_clp001_s_review_hardening.sql \
+            migrations/005_clp001_s_canonical_binding.sql \
+            tests/s-health.sql \
+            fixtures/repository-observations.sql \
+            fixtures/G0-STATUS-SUPERSESSION.json \
+            fixtures/R-INDEPENDENT-REVIEW-RECEIPT.json \
+            README-S.md \
+            docs/BUILD-CLP-001-S-SPEC.md \
+            docs/2026-10-04-build-clp-001-s-plan.md; do
+              bytes=$(wc -c < "$root/$f" | tr -d ' ')
+              hash=$(sha256sum "$root/$f" | awk '{print $1}')
+              echo "S_SOURCE $f $bytes $hash"
+          done
       - name: Verify frozen S source manifest
         run: |
           python3 - <<'PY'
