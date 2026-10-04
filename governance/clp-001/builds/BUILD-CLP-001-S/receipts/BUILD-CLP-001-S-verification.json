@@ -1,0 +1,13 @@
+{
+  "authority_boundary": "OBSERVABILITY_ONLY_NO_EXECUTION_AUTHORITY",
+  "build_id": "BUILD-CLP-001-S",
+  "expected_blocking_reason_count": 0,
+  "expected_live_repository_health": "DEGRADED",
+  "local_static_health_test_contract": "PASS",
+  "local_static_schema_contract": "PASS",
+  "parent_baseline": "b0f19f2d0ce8a086604ed1f08d1202cd5650dae8",
+  "postgresql_16_gate": "PENDING_GITHUB_CI",
+  "source_manifest_sha256": "e93756465862ece4af390e975f4483b14eda9f077acf5cee52ebf513bc91b774",
+  "t1_t10": "PENDING_GITHUB_CI",
+  "version": "1.0.0"
+}
