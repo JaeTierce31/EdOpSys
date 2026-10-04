@@ -1,0 +1,46 @@
+{
+  "current_versions": {
+    "AUTH-APPLEVALLEY-155360@2025-S21": {
+      "authority_status": "PINNED_DIGITAL_MUNICIPAL_CODE_WITH_FRESHNESS_CAVEAT",
+      "canonical_uri": "https://codelibrary.amlegal.com/codes/applevalley/latest/applevalley_mn/0-0-0-8109",
+      "content_hash": "sha256:00b53bf9346e8e89debff50503783b2bcbe311715c6cb1a560c3076a2b971004",
+      "displayed_code_version": "2025 S-21 (current)",
+      "freshness_caveat": "The city's ordinance page states its electronic code was current through Ordinance 1140 / 2024-12-26 and later ordinances are in Laserfiche; American Legal separately labels the online code 2025 S-21. Production legal action requires municipal-currentness confirmation.",
+      "jurisdiction": "US-MN-DAKOTA-APPLE-VALLEY",
+      "last_section_amendment_shown": "Ordinance 1061, passed 2019-05-09",
+      "municipal_source_page": "https://www.applevalleymn.gov/357/City-Code-of-Ordinances",
+      "publisher": "American Legal Publishing, designated online host by City of Apple Valley",
+      "relevant_principle": "Interior plumbing systems and fixtures must remain properly installed, functional, safe, sanitary, and free from leaks or defects, subject to the code applicable to the installation.",
+      "retrieved_on": "2026-10-03",
+      "section": "155.360(D)(3)(b)(1)",
+      "source_class": "SC-0",
+      "source_id": "AUTH-APPLEVALLEY-155360",
+      "title": "Apple Valley Code of Ordinances §155.360 Property Maintenance Regulations",
+      "version_id": "2025-S21"
+    },
+    "AUTH-MN-PLUMBING-4714@2020-MN-PLUMBING-CODE": {
+      "authority_status": "OFFICIAL_STATE_RULE_AND_CITY_CODE-IN-USE_CONFIRMATION",
+      "canonical_uri": "https://www.revisor.mn.gov/rules/4714/full",
+      "city_adoption_confirmation_uri": "https://www.applevalleymn.gov/840/CODES-IN-USE",
+      "content_hash": "sha256:1a49eaa526cffbc39613fc0b64fd70daeb8e41a025baed00f708fc5b013b0bc2",
+      "effective_from": "2021-12-17",
+      "jurisdiction": "US-MN",
+      "relevant_parts": ["4714.0100", "4714.0601"],
+      "relevant_principle": "Minnesota plumbing rules require serviceable plumbing systems and adequate potable water/approved flushing arrangements for water closets.",
+      "retrieved_on": "2026-10-03",
+      "source_class": "SC-0",
+      "source_id": "AUTH-MN-PLUMBING-4714",
+      "title": "Minnesota Plumbing Code, Chapter 4714",
+      "version_id": "2020-MN-PLUMBING-CODE"
+    }
+  },
+  "historical_versions": {
+    "AUTH-APPLEVALLEY-PLUMBING@CLP-FIXTURE-1": {
+      "historical_replay_only": true,
+      "reason": "Preserved to keep BUILD-CLP-001-C historical replay immutable.",
+      "status": "SUPERSEDED_FOR_NEW_CASES"
+    }
+  },
+  "new_case_rule": "New production-oriented cases must use the hardened authority versions after municipal-currentness confirmation; historical CLP-001-C replay remains pinned to its original fixture.",
+  "registry_version": "2.0.0"
+}
