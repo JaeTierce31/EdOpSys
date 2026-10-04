@@ -16,6 +16,7 @@ INSERT INTO ci_runs VALUES('obs-ci-r','JaeTierce31/EdOpSys','BUILD-CLP-001-R',37
 INSERT INTO pr_reviews(id,repository,pr_number,reviewed_sha,expected_head_sha,reviewer,severity,finding_status,resolved,superseded,merge_blocking,observed_at,finding_key)
 VALUES('obs-review-r','JaeTierce31/EdOpSys',3,'32a2064cf0aa179e2b0f2c8f40e56e705cf37fec','32a2064cf0aa179e2b0f2c8f40e56e705cf37fec','Mistral Vibe',NULL,'APPROVED',true,false,false,'2026-10-04T14:47:00Z','__summary__');
 INSERT INTO artifact_integrity VALUES('obs-int-r','JaeTierce31/EdOpSys','governance/clp-001/builds/BUILD-CLP-001-R/receipts/R-source-manifest.json',true,'PASS','0609035dc2373e8b2224e739761df88b5f2c7030b25b8db7434b5bf8638e680a','0609035dc2373e8b2224e739761df88b5f2c7030b25b8db7434b5bf8638e680a',2413,2413,'2026-10-04T14:47:00Z');
+INSERT INTO artifact_integrity_scope VALUES('obs-int-r','JaeTierce31/EdOpSys','BUILD-CLP-001-R','2026-10-04T14:47:00Z');
 INSERT INTO authority_records VALUES
 ('obs-auth-av','JaeTierce31/EdOpSys','AUTH-APPLEVALLEY-155360','2025-S21','SC-0','US-MN-DAKOTA-APPLE-VALLEY','sha256:00b53bf9346e8e89debff50503783b2bcbe311715c6cb1a560c3076a2b971004','FRESHNESS_REVIEW_DUE',false,'2026-10-04T15:19:10Z'),
 ('obs-auth-mn','JaeTierce31/EdOpSys','AUTH-MN-PLUMBING-4714','2020-MN-PLUMBING-CODE','SC-0','US-MN','sha256:1a49eaa526cffbc39613fc0b64fd70daeb8e41a025baed00f708fc5b013b0bc2','CURRENT',false,'2026-10-04T15:19:10Z');
