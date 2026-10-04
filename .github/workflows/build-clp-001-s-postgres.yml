@@ -26,23 +26,31 @@ jobs:
       PGDATABASE: postgres
     steps:
       - uses: actions/checkout@v4
-      - name: Report committed S source hashes for reconciliation
+      - name: Verify frozen S source manifest
         run: |
-          root=governance/clp-001/builds/BUILD-CLP-001-S
-          for f in \
-            migrations/003_clp001_s_governance_health.sql \
-            migrations/004_clp001_s_review_hardening.sql \
-            tests/s-health.sql \
-            fixtures/repository-observations.sql \
-            fixtures/G0-STATUS-SUPERSESSION.json \
-            fixtures/R-INDEPENDENT-REVIEW-RECEIPT.json \
-            README-S.md \
-            docs/BUILD-CLP-001-S-SPEC.md \
-            docs/2026-10-04-build-clp-001-s-plan.md; do
-              bytes=$(wc -c < "$root/$f" | tr -d ' ')
-              hash=$(sha256sum "$root/$f" | awk '{print $1}')
-              echo "S_SOURCE $f $bytes $hash"
-          done
+          python3 - <<'PY'
+          import hashlib, json, pathlib, sys
+          root = pathlib.Path('governance/clp-001/builds/BUILD-CLP-001-S')
+          manifest = json.loads((root / 'receipts/S-source-manifest.json').read_text())
+          failures = []
+          for item in manifest['files']:
+              path = root / item['path']
+              if not path.is_file():
+                  failures.append(f"MISSING {item['path']}")
+                  continue
+              data = path.read_bytes()
+              observed_hash = hashlib.sha256(data).hexdigest()
+              observed_bytes = len(data)
+              print(f"S_MANIFEST {item['path']} {observed_bytes} {observed_hash}")
+              if observed_bytes != item['bytes']:
+                  failures.append(f"SIZE {item['path']} expected={item['bytes']} observed={observed_bytes}")
+              if observed_hash != item['sha256']:
+                  failures.append(f"HASH {item['path']} expected={item['sha256']} observed={observed_hash}")
+          if failures:
+              print('\n'.join(failures), file=sys.stderr)
+              raise SystemExit(1)
+          print('S_SOURCE_MANIFEST_PASS')
+          PY
       - name: Report workflow hash
         run: sha256sum .github/workflows/build-clp-001-s-postgres.yml
       - name: Install PostgreSQL client
