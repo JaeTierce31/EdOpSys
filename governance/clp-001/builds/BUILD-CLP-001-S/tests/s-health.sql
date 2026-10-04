@@ -9,7 +9,7 @@ CREATE OR REPLACE FUNCTION pg_temp.core(repo text,prefix text) RETURNS void LANG
  PERFORM pg_temp.obs(repo,prefix||'-build','BUILD_RECEIPT');INSERT INTO build_status VALUES(prefix||'-build',repo,'BUILD-X',true,'impl','merge','parent',1,1,'success','APPROVED',0,true,clock_timestamp());
  PERFORM pg_temp.obs(repo,prefix||'-ci','CI_RUN');INSERT INTO ci_runs VALUES(prefix||'-ci',repo,'BUILD-X',1,'impl','impl','completed','success','success',clock_timestamp());
  PERFORM pg_temp.obs(repo,prefix||'-rev','PR_REVIEW');INSERT INTO pr_reviews(id,repository,pr_number,reviewed_sha,expected_head_sha,reviewer,severity,finding_status,resolved,superseded,merge_blocking,observed_at,finding_key) VALUES(prefix||'-rev',repo,1,'impl','impl','reviewer',NULL,'APPROVED',true,false,false,clock_timestamp(),'__summary__');
- PERFORM pg_temp.obs(repo,prefix||'-int','ARTIFACT_INTEGRITY');INSERT INTO artifact_integrity VALUES(prefix||'-int',repo,'required',true,'PASS','x','x',1,1,clock_timestamp());
+ PERFORM pg_temp.obs(repo,prefix||'-int','ARTIFACT_INTEGRITY');INSERT INTO artifact_integrity VALUES(prefix||'-int',repo,'required',true,'PASS','x','x',1,1,clock_timestamp());INSERT INTO artifact_integrity_scope VALUES(prefix||'-int',repo,'BUILD-X',clock_timestamp());
  PERFORM pg_temp.obs(repo,prefix||'-auth','AUTHORITY_RECORD');INSERT INTO authority_records VALUES(prefix||'-auth',repo,'AUTH','v1','SC-0','J','h','CURRENT',false,clock_timestamp());
  INSERT INTO governance_status_assertions VALUES(prefix||'-g0',repo,'G0','designation_status','"DESIGNATED"','g0.json','sha',clock_timestamp(),NULL,NULL,2,'CURRENT');
 END$$;
@@ -36,12 +36,12 @@ SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE r
 
 -- T3 missing required artifact -> BLOCKED.
 SELECT pg_temp.good('t3','t3'); SELECT pg_temp.obs('t3','t3-miss','ARTIFACT_INTEGRITY');
-INSERT INTO artifact_integrity VALUES('t3-miss','t3','missing',true,'MISSING','x',NULL,1,NULL,clock_timestamp());
+INSERT INTO artifact_integrity VALUES('t3-miss','t3','missing',true,'MISSING','x',NULL,1,NULL,clock_timestamp());INSERT INTO artifact_integrity_scope VALUES('t3-miss','t3','BUILD-X',clock_timestamp());
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t3'),'BLOCKED','T3');
 
 -- T4 hash mismatch -> BLOCKED.
 SELECT pg_temp.good('t4','t4'); SELECT pg_temp.obs('t4','t4-hash','ARTIFACT_INTEGRITY');
-INSERT INTO artifact_integrity VALUES('t4-hash','t4','bad',true,'HASH_MISMATCH','x','y',1,1,clock_timestamp());
+INSERT INTO artifact_integrity VALUES('t4-hash','t4','bad',true,'HASH_MISMATCH','x','y',1,1,clock_timestamp());INSERT INTO artifact_integrity_scope VALUES('t4-hash','t4','BUILD-X',clock_timestamp());
 SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t4'),'BLOCKED','T4');
 
 -- T5 canonical exact-head CI remains PASS despite newer non-canonical failure.
@@ -84,5 +84,38 @@ SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE r
 DO $$BEGIN BEGIN UPDATE repository_baseline SET canonical_head='mutated' WHERE repository='t1'; RAISE EXCEPTION 'T10 observability mutation unexpectedly succeeded'; EXCEPTION WHEN SQLSTATE '55000' THEN NULL; END;
 BEGIN INSERT INTO clp_events(event_id,correlation_id,aggregate_id,aggregate_version,event_type,decision,event_hash,payload) VALUES('t10-event','t10','a',1,'Test','REPORTED','h','{}'); UPDATE clp_events SET event_type='mutated' WHERE event_id='t10-event'; RAISE EXCEPTION 'T10 CLP mutation unexpectedly succeeded'; EXCEPTION WHEN SQLSTATE '55000' THEN NULL; END;END$$;
 
-SELECT 'S_T1_T10_REVIEW_HARDENED_PASS';
+-- T11 baseline advances without build observation -> UNKNOWN, never stale historical build health.
+SELECT pg_temp.good('t11','t11'); SELECT pg_temp.obs('t11','t11-base-y','REPOSITORY_HEAD');
+INSERT INTO repository_baseline VALUES('t11-base-y','t11','head-y','BUILD-Y','g0','g1','p','q','r',clock_timestamp()+interval '2 seconds');
+SELECT pg_temp.assert_eq((SELECT build_status FROM v_repository_health WHERE repository='t11'),'UNKNOWN','T11-build-binding');
+SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t11'),'UNKNOWN','T11-overall');
+
+-- T12 latest observation for one logical authority clears historical conflict.
+SELECT pg_temp.good('t12','t12'); SELECT pg_temp.obs('t12','t12-auth-conflict','AUTHORITY_RECORD');
+INSERT INTO authority_records VALUES('t12-auth-conflict','t12','AUTH','v2','SC-0','J','h2','CONFLICT',true,clock_timestamp()+interval '1 second');
+SELECT pg_temp.assert_eq((SELECT authority_status FROM v_repository_health WHERE repository='t12'),'BLOCKED','T12-conflict');
+SELECT pg_temp.obs('t12','t12-auth-current','AUTHORITY_RECORD');
+INSERT INTO authority_records VALUES('t12-auth-current','t12','AUTH','v3','SC-0','J','h3','CURRENT',false,clock_timestamp()+interval '2 seconds');
+SELECT pg_temp.assert_eq((SELECT authority_status FROM v_repository_health WHERE repository='t12'),'HEALTHY','T12-latest-authority');
+SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t12'),'HEALTHY','T12-overall');
+
+-- T13 old review cannot authorize a newly active build head.
+SELECT pg_temp.good('t13','t13'); SELECT pg_temp.obs('t13','t13-base-y','REPOSITORY_HEAD'); SELECT pg_temp.obs('t13','t13-build-y','BUILD_RECEIPT'); SELECT pg_temp.obs('t13','t13-ci-y','CI_RUN'); SELECT pg_temp.obs('t13','t13-int-y','ARTIFACT_INTEGRITY');
+INSERT INTO repository_baseline VALUES('t13-base-y','t13','head-y','BUILD-Y','g0','g1','p','q','r',clock_timestamp()+interval '2 seconds');
+INSERT INTO build_status VALUES('t13-build-y','t13','BUILD-Y',true,'impl-y','merge-y','parent',1,1,'success','APPROVED',0,true,clock_timestamp()+interval '2 seconds');
+INSERT INTO ci_runs VALUES('t13-ci-y','t13','BUILD-Y',2,'impl-y','impl-y','completed','success','success',clock_timestamp()+interval '2 seconds');
+INSERT INTO artifact_integrity VALUES('t13-int-y','t13','required-y',true,'PASS','y','y',1,1,clock_timestamp()+interval '2 seconds');INSERT INTO artifact_integrity_scope VALUES('t13-int-y','t13','BUILD-Y',clock_timestamp()+interval '2 seconds');
+SELECT pg_temp.assert_eq((SELECT review_status FROM v_repository_health WHERE repository='t13'),'UNKNOWN','T13-review-binding');
+SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t13'),'UNKNOWN','T13-overall');
+
+-- T14 old integrity cannot authorize a newly active build.
+SELECT pg_temp.good('t14','t14'); SELECT pg_temp.obs('t14','t14-base-y','REPOSITORY_HEAD'); SELECT pg_temp.obs('t14','t14-build-y','BUILD_RECEIPT'); SELECT pg_temp.obs('t14','t14-ci-y','CI_RUN'); SELECT pg_temp.obs('t14','t14-rev-y','PR_REVIEW');
+INSERT INTO repository_baseline VALUES('t14-base-y','t14','head-y','BUILD-Y','g0','g1','p','q','r',clock_timestamp()+interval '2 seconds');
+INSERT INTO build_status VALUES('t14-build-y','t14','BUILD-Y',true,'impl-y','merge-y','parent',1,1,'success','APPROVED',0,true,clock_timestamp()+interval '2 seconds');
+INSERT INTO ci_runs VALUES('t14-ci-y','t14','BUILD-Y',2,'impl-y','impl-y','completed','success','success',clock_timestamp()+interval '2 seconds');
+INSERT INTO pr_reviews(id,repository,pr_number,reviewed_sha,expected_head_sha,reviewer,severity,finding_status,resolved,superseded,merge_blocking,observed_at,finding_key) VALUES('t14-rev-y','t14',2,'impl-y','impl-y','reviewer',NULL,'APPROVED',true,false,false,clock_timestamp()+interval '2 seconds','__summary__');
+SELECT pg_temp.assert_eq((SELECT integrity_status FROM v_repository_health WHERE repository='t14'),'UNKNOWN','T14-integrity-binding');
+SELECT pg_temp.assert_eq((SELECT overall_health FROM v_repository_health WHERE repository='t14'),'UNKNOWN','T14-overall');
+
+SELECT 'S_T1_T14_CANONICAL_BINDING_PASS';
 ROLLBACK;
