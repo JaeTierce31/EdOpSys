@@ -1,0 +1,28 @@
+{
+  "artifact_receipts": {
+    "A_zip_sha256": "72fb6de988ec89f078e538e433413802a1a131be4eb0e338869506364ab91ca6",
+    "B_zip_sha256": "f0b5be0987dce13af15e888348fb604da898f5cffbe706c8ce0c28bd7c6750bf",
+    "C_zip_sha256": "c234910fd178868971ac78c088064c2744525bf95eceb9b62c8c40645a82f885",
+    "hardening_zip_sha256": "38eb525918b2ba6fb2fc23504290ba5f261574e63b1b7edbef578bd4cd3f3342"
+  },
+  "bundles": [
+    {
+      "bytes": 28575,
+      "file": "BUILD-A-source-bundle.json",
+      "sha256": "94598061d5b00454a55907b0ca5e3164396b2cebdc32bdf87077dfe4429f9ea4"
+    },
+    {
+      "bytes": 46896,
+      "file": "BUILD-B-source-bundle.json",
+      "sha256": "8364753ae4db383975d033f35a2450ce675ef8fb50e91483a6f758ad2a25e86d"
+    },
+    {
+      "bytes": 157376,
+      "file": "BUILD-C-source-bundle.json",
+      "sha256": "23c9fdc618cbbc49d4259a1c6829a813b898352d58fb5175086cac05fd786503"
+    }
+  ],
+  "format": "edopsys-g0-materialization-pack-v1",
+  "repository": "JaeTierce31/EdOpSys",
+  "target_path": "governance/clp-001/g0/source-bundles"
+}
