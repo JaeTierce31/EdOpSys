@@ -1,0 +1,15 @@
+{
+  "build_id": "BUILD-CLP-001-R",
+  "clean_unzip": "PASS",
+  "exact_head_review": "PENDING",
+  "live_postgres_recovery_gate": "PENDING_GITHUB_CI",
+  "local_build": "PASS",
+  "migration_002_sha256": "014219989688420776332ab486c11170b681e705219a7d2abb5d4bf8eb4cc20a",
+  "package_sha256_binding": "EXTERNAL_AFTER_EXPORT",
+  "parent_merged_q_sha": "5427aff8c10370085546cf98ae83dacd5939bb0a",
+  "source_manifest_sha256": "0609035dc2373e8b2224e739761df88b5f2c7030b25b8db7434b5bf8638e680a",
+  "tests": {
+    "combined": "61/61 PASS"
+  },
+  "version": "1.0.5"
+}

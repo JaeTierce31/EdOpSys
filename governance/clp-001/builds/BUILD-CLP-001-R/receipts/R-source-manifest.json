@@ -1,0 +1,77 @@
+{
+  "build_id": "BUILD-CLP-001-R",
+  "files": [
+    {
+      "bytes": 7996,
+      "path": "src/q-reference-store.ts",
+      "sha256": "96e2d724a9c13bb18a9f32b407e99acfdc54ab972b7135aaf178a81d7219a5ab"
+    },
+    {
+      "bytes": 7646,
+      "path": "src/q-postgres-store.ts",
+      "sha256": "352491739e16ebaab1aea6c20057b2b92af058e792182b9fd32d0dc2573470b3"
+    },
+    {
+      "bytes": 1853,
+      "path": "src/q-contract.ts",
+      "sha256": "5cf51ab00df4777d77f25647cf98e96bbb6cc163a46dc55a26a32d4868cd4c8d"
+    },
+    {
+      "bytes": 2923,
+      "path": "src/q-service.ts",
+      "sha256": "8cee96d6beddf371daed53456eb77381f866259e561a556d893d0b9b69029f32"
+    },
+    {
+      "bytes": 1342,
+      "path": "src/q-transport.ts",
+      "sha256": "ed5f5017967085515b27b1e3fd7c38a9f86c46fd0af873d39039bd489592a85e"
+    },
+    {
+      "bytes": 3594,
+      "path": "migrations/002_clp001_r.sql",
+      "sha256": "014219989688420776332ab486c11170b681e705219a7d2abb5d4bf8eb4cc20a"
+    },
+    {
+      "bytes": 9451,
+      "path": "tests/r/state-certification.test.mjs",
+      "sha256": "40e87e1b3b87a8f3587b164c843d5fc53c1952bb461763588c02e284c2ddcd07"
+    },
+    {
+      "bytes": 2536,
+      "path": "tests/r/postgres-contract.test.mjs",
+      "sha256": "9fbd22ddf0283d582c0892a6f76839fa7277b32d99e2a0448b540e7139c23915"
+    },
+    {
+      "bytes": 1548,
+      "path": "scripts/postgres-r-legacy-q-seed.sql",
+      "sha256": "9e081e56a9971be862217664a9046e07170fd3949519e86b47a210aa3f6c2ac3"
+    },
+    {
+      "bytes": 2502,
+      "path": "scripts/postgres-r-seed.sql",
+      "sha256": "0f0a0134bf44bbc40cc550fa98abec3c6e5ea99505a3e21788e09fe563ca6dd4"
+    },
+    {
+      "bytes": 3544,
+      "path": "scripts/postgres-r-backup-restore.sh",
+      "sha256": "0047f7656034a962f42a56508d0b0330355d0c59ed3dd5568183f3d96895d825"
+    },
+    {
+      "bytes": 1098,
+      "path": "README-R.md",
+      "sha256": "3d0089878af573a341d38dff4581431b254c9ef8c7254e6465e96b5877503262"
+    },
+    {
+      "bytes": 1320,
+      "path": "POSTGRES-R-RECOVERY.md",
+      "sha256": "0fd22c1d1307a7dffa52430e7a3d7968ecb7c5561b3a2c078b1f7ce1a6eb8239"
+    },
+    {
+      "bytes": 4610,
+      "path": "docs/superpowers/plans/2026-10-04-build-clp-001-r.md",
+      "sha256": "15d8721f368976a0e058c09e7283dd5a61345fa8236afb4f30fe288991f1e9ca"
+    }
+  ],
+  "parent_merged_q_sha": "5427aff8c10370085546cf98ae83dacd5939bb0a",
+  "version": "1.0.5"
+}
